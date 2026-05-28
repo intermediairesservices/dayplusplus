@@ -126,12 +126,13 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
+  min-height: 40px;
   border: 1px solid transparent;
   border-radius: var(--radius);
   padding: 0 10px;
   color: var(--ink);
   font-weight: 760;
+  font-size: 0.8rem;
   text-decoration: none;
 }
 
