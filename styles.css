@@ -84,11 +84,27 @@ button:disabled {
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
 .title-block {
   min-width: 0;
+  flex: 1 1 min(320px, 60%);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.top-actions button,
+.top-actions select {
+  flex: 0 1 auto;
+  min-width: 110px;
 }
 
 .eyebrow {
@@ -435,6 +451,13 @@ body.settings-open .settings-panel {
   overflow-x: auto;
   padding: 0 0 12px;
   scrollbar-width: none;
+  flex-wrap: wrap;
+}
+
+.view-tabs button {
+  flex: 1 1 min(120px, 20%);
+  min-width: 110px;
+  white-space: nowrap;
 }
 
 .view-tabs::-webkit-scrollbar {
