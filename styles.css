@@ -129,7 +129,7 @@ button:disabled {
   min-height: 42px;
   border: 1px solid transparent;
   border-radius: var(--radius);
-  padding: 0 15px;
+  padding: 0 10px;
   color: var(--ink);
   font-weight: 760;
   text-decoration: none;
