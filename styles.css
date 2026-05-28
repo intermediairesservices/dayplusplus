@@ -28,11 +28,7 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(
-      circle at top left,
-      var(--accent-soft),
-      transparent 34rem
-    ),
+    radial-gradient(circle at top left, var(--accent-soft), transparent 34rem),
     linear-gradient(135deg, var(--bg) 0%, var(--bg-2, #f6fbf8) 100%);
   color: var(--ink);
   font-family:
@@ -48,7 +44,11 @@ body {
 
 body[data-theme="dark"] {
   background:
-    radial-gradient(circle at top left, rgba(246, 79, 146, 0.22), transparent 34rem),
+    radial-gradient(
+      circle at top left,
+      rgba(246, 79, 146, 0.22),
+      transparent 34rem
+    ),
     linear-gradient(135deg, #111318 0%, #1d2028 100%);
 }
 
@@ -116,7 +116,7 @@ button:disabled {
   align-items: center;
   flex-wrap: nowrap;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 5px;
 }
 
 .soft-button,
