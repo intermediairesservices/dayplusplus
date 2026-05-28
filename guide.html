@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#004482" />
+    <meta
+      id="guideDescription"
+      name="description"
+      content="Guide d'utilisation de Day++."
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Day++" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Guide Day++</title>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-19ZNNEVK2R"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-19ZNNEVK2R");
+    </script>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="icons/day-plus-plus-192.png"
+    />
+    <link rel="apple-touch-icon" href="icons/day-plus-plus-192.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="guide-shell">
+      <header class="guide-topbar">
+        <div>
+          <p class="eyebrow">Day++</p>
+          <h1 data-i18n="guide.title">Guide</h1>
+        </div>
+        <div class="guide-actions">
+          <a id="backToApp" class="soft-button" href="index.html" data-i18n="guide.back">Retour à l'app</a>
+          <select id="guideLanguageSelect" class="language-select" aria-label="Langue">
+            <option value="fr">Français</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </header>
+
+      <section class="guide-hero">
+        <h1 data-i18n="guide.heroTitle">Un jour à la fois.</h1>
+        <p data-i18n="guide.heroText">
+          Day++ découpe un objectif long en vues plus petites pour garder le cerveau concentré sur l'action du jour.
+        </p>
+      </section>
+
+      <section class="guide-section">
+        <h2 data-i18n="guide.quickStartTitle">Démarrage rapide</h2>
+        <ol>
+          <li data-i18n="guide.quickStart1">Choisis un objectif, une durée et une date de début.</li>
+          <li data-i18n="guide.quickStart2">Ouvre la vue Jour et maintiens le bouton pendant 5 secondes.</li>
+          <li data-i18n="guide.quickStart3">Après validation, consulte la semaine puis navigue vers les vues plus longues.</li>
+          <li data-i18n="guide.quickStart4">Installe la PWA pour l'utiliser hors ligne.</li>
+        </ol>
+      </section>
+
+      <section class="guide-section">
+        <h2 data-i18n="guide.viewsTitle">Comprendre les vues</h2>
+        <div class="guide-grid">
+          <article class="guide-card">
+            <h3 data-i18n="guide.dayTitle">Jour</h3>
+            <p data-i18n="guide.dayText">La vue principale. Ton objectif devient simplement : valider aujourd'hui.</p>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.weekTitle">Semaine</h3>
+            <p data-i18n="guide.weekText">Une progression courte de 7 jours, utile pour voir que tu avances sans afficher toute l'année.</p>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.monthTitle">Mois, trimestre, semestre</h3>
+            <p data-i18n="guide.monthText">Ces vues servent à prendre du recul sans transformer le défi en montagne.</p>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.yearTitle">Année</h3>
+            <p data-i18n="guide.yearText">La vue annuelle est pensée pour les captures d'écran et le bilan global.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="guide-section">
+        <h2 data-i18n="guide.settingsTitle">Réglages utiles</h2>
+        <div class="guide-grid">
+          <article class="guide-card">
+            <h3 data-i18n="guide.durationTitle">Durée</h3>
+            <p data-i18n="guide.durationText">Tu peux choisir une semaine, un mois, un trimestre, un semestre ou une année personnalisée.</p>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.modeTitle">Mode strict / souple</h3>
+            <p data-i18n="guide.modeText">Le mode strict valide depuis la vue Jour. Le mode souple permet aussi de corriger les jours passés.</p>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.multiTitle">Plusieurs progressions</h3>
+            <p data-i18n="guide.multiText">Crée plusieurs objectifs, chacun avec son nom, ses dates, son thème et ses validations.</p>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.reminderTitle">Rappels</h3>
+            <p data-i18n="guide.reminderText">Active les notifications et la vibration si ton navigateur les supporte.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="guide-section">
+        <h2 data-i18n="guide.dataTitle">Données et hors ligne</h2>
+        <ul>
+          <li data-i18n="guide.data1">Les progressions sont stockées localement dans IndexedDB.</li>
+          <li data-i18n="guide.data2">L'app fonctionne hors ligne après le premier chargement.</li>
+          <li data-i18n="guide.data3">Utilise Sauvegarder / Restaurer pour transférer tes données vers un autre appareil ou navigateur.</li>
+          <li data-i18n="guide.data4">Chrome et la PWA partagent les données si elles viennent de la même URL GitHub Pages.</li>
+        </ul>
+      </section>
+
+      <section class="guide-section">
+        <p class="guide-note" data-i18n="guide.note">
+          Le meilleur rythme est volontairement simple : ne gagne pas l'année aujourd'hui, gagne seulement aujourd'hui.
+        </p>
+      </section>
+    </main>
+
+    <script src="guide.js"></script>
+  </body>
+</html>

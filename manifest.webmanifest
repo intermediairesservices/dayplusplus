@@ -1,7 +1,7 @@
 {
   "name": "Day++",
   "short_name": "Day++",
-  "description": "Une progression quotidienne découpée en jours, semaines, mois, trimestres, semestres et année.",
+  "description": "Daily progression / Progression quotidienne avec vues jour, semaine, mois et année.",
   "id": "./",
   "start_url": "./index.html",
   "scope": "./",
@@ -28,6 +28,18 @@
       "name": "Progression annuelle",
       "short_name": "Année",
       "url": "./index.html#year",
+      "icons": [
+        {
+          "src": "icons/day-plus-plus-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Guide",
+      "short_name": "Guide",
+      "url": "./guide.html",
       "icons": [
         {
           "src": "icons/day-plus-plus-192.png",

@@ -1,9 +1,11 @@
-const CACHE_NAME = "day-plus-plus-v1.0.0";
+const CACHE_NAME = "day-plus-plus-v1.1.2";
 const APP_SHELL = [
   "./",
   "./index.html",
+  "./guide.html",
   "./styles.css",
   "./app.js",
+  "./guide.js",
   "./manifest.webmanifest",
   "./icons/day-plus-plus-192.png",
   "./icons/day-plus-plus-512.png",
@@ -87,9 +89,14 @@ self.addEventListener("notificationclick", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+  const requestUrl = new URL(event.request.url);
+  if (requestUrl.origin !== self.location.origin) return;
 
   if (event.request.mode === "navigate") {
-    event.respondWith(networkFirst(event.request, "./index.html"));
+    const fallbackUrl = requestUrl.pathname.endsWith("/guide.html")
+      ? "./guide.html"
+      : "./index.html";
+    event.respondWith(networkFirst(event.request, fallbackUrl));
     return;
   }
 

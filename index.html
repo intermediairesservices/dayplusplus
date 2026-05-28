@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#004482" />
     <meta
+      id="metaDescription"
       name="description"
       content="Day++ transforme un objectif long en progression quotidienne, hebdomadaire et annuelle."
     />
@@ -12,7 +13,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Day++" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <title>Progression 365</title>
+    <title>Day++</title>
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-19ZNNEVK2R"
@@ -46,29 +47,13 @@
           <p id="periodSubtitle" class="subtitle"></p>
         </div>
         <div class="top-actions">
-          <span id="offlineBadge" class="status-badge" hidden>Hors ligne</span>
-          <button
-            id="updateBtn"
-            class="soft-button update-button"
-            type="button"
-            hidden
-          >
-            Mettre à jour
-          </button>
-          <button
-            id="installBtn"
-            class="soft-button install-button"
-            type="button"
-            hidden
-          >
-            Installer
-          </button>
-          <button id="exportImageBtn" class="soft-button" type="button">
-            Exporter
-          </button>
           <button id="todayBtn" class="soft-button" type="button">
-            Aujourd'hui
+            <span data-i18n="action.today">Aujourd'hui</span>
           </button>
+          <select id="languageSelect" class="language-select" aria-label="Langue">
+            <option value="fr">Français</option>
+            <option value="en">English</option>
+          </select>
           <button
             id="settingsToggle"
             class="soft-button"
@@ -76,8 +61,45 @@
             aria-expanded="false"
             aria-controls="settingsPanel"
           >
-            Réglages
+            <span data-i18n="action.settings">Réglages</span>
           </button>
+          <div class="more-actions">
+            <button
+              id="moreActionsBtn"
+              class="soft-button menu-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="menu"
+              aria-controls="actionsMenu"
+            >
+              <span data-i18n="action.more">Plus</span>
+            </button>
+            <div id="actionsMenu" class="actions-menu" role="menu" hidden>
+              <span id="offlineBadge" class="status-badge" hidden data-i18n="status.offline">Hors ligne</span>
+              <button
+                id="updateBtn"
+                class="soft-button update-button"
+                type="button"
+                role="menuitem"
+                hidden
+              >
+                <span data-i18n="action.update">Mettre à jour</span>
+              </button>
+              <button
+                id="installBtn"
+                class="soft-button install-button"
+                type="button"
+                role="menuitem"
+                hidden
+              >
+                <span data-i18n="action.install">Installer</span>
+              </button>
+              <a id="guideLink" class="soft-button guide-button" href="guide.html" role="menuitem" data-i18n="action.guide">Guide</a>
+              <button id="exportImageBtn" class="soft-button" type="button" role="menuitem">
+                <span data-i18n="action.export">Exporter</span>
+              </button>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -86,25 +108,26 @@
           id="settingsPanel"
           class="settings-panel"
           aria-label="Réglages de la progression"
+          data-i18n-aria-label="aria.settings"
         >
           <div class="progression-switcher">
             <label>
-              Progression
+              <span data-i18n="settings.progression">Progression</span>
               <select id="progressSelect"></select>
             </label>
             <div class="progression-actions">
               <button id="newProgressBtn" class="ghost-button" type="button">
-                Nouvelle
+                <span data-i18n="action.new">Nouvelle</span>
               </button>
               <button id="deleteProgressBtn" class="ghost-button" type="button">
-                Supprimer
+                <span data-i18n="action.delete">Supprimer</span>
               </button>
             </div>
           </div>
-          <h2>Durée</h2>
+          <h2 data-i18n="settings.durationTitle">Durée</h2>
           <form id="settingsForm" class="settings-form">
             <label>
-              Objectif
+              <span data-i18n="settings.goal">Objectif</span>
               <input
                 id="goalTitle"
                 name="goalTitle"
@@ -113,39 +136,39 @@
               />
             </label>
             <label>
-              Type
+              <span data-i18n="settings.type">Type</span>
               <select id="durationType" name="durationType">
-                <option value="year">Année</option>
-                <option value="semester">Semestre</option>
-                <option value="quarter">Trimestre</option>
-                <option value="month">Mois</option>
-                <option value="week">Semaine</option>
+                <option value="year" data-i18n="duration.year">Année</option>
+                <option value="semester" data-i18n="duration.semester">Semestre</option>
+                <option value="quarter" data-i18n="duration.quarter">Trimestre</option>
+                <option value="month" data-i18n="duration.month">Mois</option>
+                <option value="week" data-i18n="duration.week">Semaine</option>
               </select>
             </label>
             <label>
-              Début
+              <span data-i18n="settings.start">Début</span>
               <input id="startDate" name="startDate" type="date" />
             </label>
             <label>
-              Fin
+              <span data-i18n="settings.end">Fin</span>
               <input id="endDate" name="endDate" type="date" />
             </label>
             <label>
-              Mode
+              <span data-i18n="settings.mode">Mode</span>
               <select id="progressMode" name="progressMode">
-                <option value="strict">Strict</option>
-                <option value="flexible">Souple</option>
+                <option value="strict" data-i18n="mode.strict">Strict</option>
+                <option value="flexible" data-i18n="mode.flexible">Souple</option>
               </select>
             </label>
             <label>
-              Thème
+              <span data-i18n="settings.theme">Thème</span>
               <select id="themeSelect" name="themeSelect">
-                <option value="primary">Principal</option>
-                <option value="pink">Rose</option>
-                <option value="green">Vert</option>
-                <option value="blue">Bleu</option>
-                <option value="dark">Noir</option>
-                <option value="sunset">Sunset</option>
+                <option value="primary" data-i18n="theme.primary">Principal</option>
+                <option value="pink" data-i18n="theme.pink">Rose</option>
+                <option value="green" data-i18n="theme.green">Vert</option>
+                <option value="blue" data-i18n="theme.blue">Bleu</option>
+                <option value="dark" data-i18n="theme.dark">Noir</option>
+                <option value="sunset" data-i18n="theme.sunset">Sunset</option>
               </select>
             </label>
             <label class="toggle-label">
@@ -154,10 +177,10 @@
                 name="notificationToggle"
                 type="checkbox"
               />
-              <span>Rappel quotidien</span>
+              <span data-i18n="settings.dailyReminder">Rappel quotidien</span>
             </label>
             <label>
-              Heure du rappel
+              <span data-i18n="settings.reminderTime">Heure du rappel</span>
               <input
                 id="notificationTime"
                 name="notificationTime"
@@ -171,62 +194,64 @@
                 name="vibrationToggle"
                 type="checkbox"
               />
-              <span>Vibration</span>
+              <span data-i18n="settings.vibration">Vibration</span>
             </label>
             <button
               id="notificationPermissionBtn"
               class="ghost-button"
               type="button"
             >
-              Autoriser les notifications
+              <span data-i18n="action.allowNotifications">Autoriser les notifications</span>
             </button>
-            <p id="notificationStatus" class="settings-note">
+            <p id="notificationStatus" class="settings-note" data-i18n="notification.disabled">
               Notifications désactivées
             </p>
             <div class="form-actions">
-              <button class="primary-button" type="submit">Appliquer</button>
+              <button class="primary-button" type="submit">
+                <span data-i18n="action.apply">Appliquer</span>
+              </button>
               <button id="currentYearBtn" class="ghost-button" type="button">
-                Année actuelle
+                <span data-i18n="action.currentYear">Année actuelle</span>
               </button>
             </div>
           </form>
 
-          <div class="metric-list" aria-label="Résumé">
+          <div class="metric-list" aria-label="Résumé" data-i18n-aria-label="aria.summary">
             <div class="metric">
               <span class="metric-value" id="metricDone">0</span>
-              <span class="metric-label">jours faits</span>
+              <span class="metric-label" data-i18n="metric.done">jours faits</span>
             </div>
             <div class="metric">
               <span class="metric-value" id="metricTotal">365</span>
-              <span class="metric-label">jours prévus</span>
+              <span class="metric-label" data-i18n="metric.total">jours prévus</span>
             </div>
             <div class="metric">
               <span class="metric-value" id="metricPercent">0%</span>
-              <span class="metric-label">avancée</span>
+              <span class="metric-label" data-i18n="metric.progress">avancée</span>
             </div>
             <div class="metric">
               <span class="metric-value" id="metricStreak">0</span>
-              <span class="metric-label">streak</span>
+              <span class="metric-label" data-i18n="metric.streak">streak</span>
             </div>
             <div class="metric">
               <span class="metric-value" id="metricBestStreak">0</span>
-              <span class="metric-label">record</span>
+              <span class="metric-label" data-i18n="metric.record">record</span>
             </div>
           </div>
 
-          <div class="tool-stack" aria-label="Outils">
+          <div class="tool-stack" aria-label="Outils" data-i18n-aria-label="aria.tools">
             <button
               id="settingsExportImageBtn"
               class="ghost-button"
               type="button"
             >
-              Exporter l'image
+              <span data-i18n="action.exportImage">Exporter l'image</span>
             </button>
             <button id="backupBtn" class="ghost-button" type="button">
-              Sauvegarder
+              <span data-i18n="action.backup">Sauvegarder</span>
             </button>
             <button id="restoreBtn" class="ghost-button" type="button">
-              Restaurer
+              <span data-i18n="action.restore">Restaurer</span>
             </button>
             <input
               id="restoreInput"
@@ -237,18 +262,18 @@
           </div>
 
           <button id="resetProgressBtn" class="danger-button" type="button">
-            Réinitialiser cette durée
+            <span data-i18n="action.reset">Réinitialiser cette durée</span>
           </button>
         </aside>
 
         <section class="workspace">
-          <nav id="viewTabs" class="view-tabs" aria-label="Vues de progression">
-            <button type="button" data-view="day">Jour</button>
-            <button type="button" data-view="week">Semaine</button>
-            <button type="button" data-view="month">Mois</button>
-            <button type="button" data-view="quarter">Trimestre</button>
-            <button type="button" data-view="semester">Semestre</button>
-            <button type="button" data-view="year">Année</button>
+          <nav id="viewTabs" class="view-tabs" aria-label="Vues de progression" data-i18n-aria-label="aria.views">
+            <button type="button" data-view="day" data-i18n="view.day">Jour</button>
+            <button type="button" data-view="week" data-i18n="view.week">Semaine</button>
+            <button type="button" data-view="month" data-i18n="view.month">Mois</button>
+            <button type="button" data-view="quarter" data-i18n="view.quarter">Trimestre</button>
+            <button type="button" data-view="semester" data-i18n="view.semester">Semestre</button>
+            <button type="button" data-view="year" data-i18n="view.year">Année</button>
           </nav>
 
           <section id="viewHost" class="view-host" aria-live="polite"></section>
@@ -265,10 +290,10 @@
     >
       <form id="onboardingForm" class="onboarding-card">
         <p class="eyebrow">Day++</p>
-        <h2 id="onboardingTitle">Configurer l'objectif</h2>
+        <h2 id="onboardingTitle" data-i18n="onboarding.title">Configurer l'objectif</h2>
         <div class="onboarding-grid">
           <label>
-            Objectif
+            <span data-i18n="settings.goal">Objectif</span>
             <input
               id="onboardingGoalTitle"
               type="text"
@@ -277,43 +302,45 @@
             />
           </label>
           <label>
-            Durée
+            <span data-i18n="settings.durationTitle">Durée</span>
             <select id="onboardingDuration">
-              <option value="year">Année</option>
-              <option value="semester">Semestre</option>
-              <option value="quarter">Trimestre</option>
-              <option value="month">Mois</option>
-              <option value="week">Semaine</option>
+              <option value="year" data-i18n="duration.year">Année</option>
+              <option value="semester" data-i18n="duration.semester">Semestre</option>
+              <option value="quarter" data-i18n="duration.quarter">Trimestre</option>
+              <option value="month" data-i18n="duration.month">Mois</option>
+              <option value="week" data-i18n="duration.week">Semaine</option>
             </select>
           </label>
           <label>
-            Début
+            <span data-i18n="settings.start">Début</span>
             <input id="onboardingStart" type="date" />
           </label>
           <label>
-            Fin
+            <span data-i18n="settings.end">Fin</span>
             <input id="onboardingEnd" type="date" />
           </label>
           <label>
-            Mode
+            <span data-i18n="settings.mode">Mode</span>
             <select id="onboardingMode">
-              <option value="strict">Strict</option>
-              <option value="flexible">Souple</option>
+              <option value="strict" data-i18n="mode.strict">Strict</option>
+              <option value="flexible" data-i18n="mode.flexible">Souple</option>
             </select>
           </label>
           <label>
-            Thème
+            <span data-i18n="settings.theme">Thème</span>
             <select id="onboardingTheme">
-              <option value="primary">Principal</option>
-              <option value="pink">Rose</option>
-              <option value="green">Vert</option>
-              <option value="blue">Bleu</option>
-              <option value="dark">Noir</option>
-              <option value="sunset">Sunset</option>
+              <option value="primary" data-i18n="theme.primary">Principal</option>
+              <option value="pink" data-i18n="theme.pink">Rose</option>
+              <option value="green" data-i18n="theme.green">Vert</option>
+              <option value="blue" data-i18n="theme.blue">Bleu</option>
+              <option value="dark" data-i18n="theme.dark">Noir</option>
+              <option value="sunset" data-i18n="theme.sunset">Sunset</option>
             </select>
           </label>
         </div>
-        <button class="primary-button" type="submit">Démarrer</button>
+        <button class="primary-button" type="submit">
+          <span data-i18n="action.start">Démarrer</span>
+        </button>
       </form>
     </div>
 

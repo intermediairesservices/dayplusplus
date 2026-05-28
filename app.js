@@ -9,11 +9,16 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const els = {
   periodTitle: document.querySelector("#periodTitle"),
   periodSubtitle: document.querySelector("#periodSubtitle"),
+  metaDescription: document.querySelector("#metaDescription"),
   settingsToggle: document.querySelector("#settingsToggle"),
   settingsPanel: document.querySelector("#settingsPanel"),
   offlineBadge: document.querySelector("#offlineBadge"),
   updateBtn: document.querySelector("#updateBtn"),
   installBtn: document.querySelector("#installBtn"),
+  guideLink: document.querySelector("#guideLink"),
+  languageSelect: document.querySelector("#languageSelect"),
+  moreActionsBtn: document.querySelector("#moreActionsBtn"),
+  actionsMenu: document.querySelector("#actionsMenu"),
   todayBtn: document.querySelector("#todayBtn"),
   exportImageBtn: document.querySelector("#exportImageBtn"),
   settingsForm: document.querySelector("#settingsForm"),
@@ -58,11 +63,11 @@ const els = {
 };
 
 const durationLabels = {
-  year: "Année",
-  semester: "Semestre",
-  quarter: "Trimestre",
-  month: "Mois",
-  week: "Semaine",
+  year: "duration.year",
+  semester: "duration.semester",
+  quarter: "duration.quarter",
+  month: "duration.month",
+  week: "duration.week",
 };
 
 const viewOrder = ["day", "week", "month", "quarter", "semester", "year"];
@@ -80,6 +85,241 @@ const durationMonths = {
   semester: 6,
   quarter: 3,
   month: 1,
+};
+
+const translations = {
+  fr: {
+    "meta.title": "Day++",
+    "meta.description": "Day++ transforme un objectif long en progression quotidienne, hebdomadaire et annuelle.",
+    "status.offline": "Hors ligne",
+    "action.update": "Mettre à jour",
+    "action.install": "Installer",
+    "action.guide": "Guide",
+    "action.export": "Exporter",
+    "action.today": "Aujourd'hui",
+    "action.settings": "Réglages",
+    "action.close": "Fermer",
+    "action.more": "Plus",
+    "action.new": "Nouvelle",
+    "action.delete": "Supprimer",
+    "action.apply": "Appliquer",
+    "action.currentYear": "Année actuelle",
+    "action.exportImage": "Exporter l'image",
+    "action.backup": "Sauvegarder",
+    "action.restore": "Restaurer",
+    "action.reset": "Réinitialiser cette durée",
+    "action.start": "Démarrer",
+    "action.allowNotifications": "Autoriser les notifications",
+    "settings.progression": "Progression",
+    "settings.durationTitle": "Durée",
+    "settings.goal": "Objectif",
+    "settings.type": "Type",
+    "settings.start": "Début",
+    "settings.end": "Fin",
+    "settings.mode": "Mode",
+    "settings.theme": "Thème",
+    "settings.dailyReminder": "Rappel quotidien",
+    "settings.reminderTime": "Heure du rappel",
+    "settings.vibration": "Vibration",
+    "duration.year": "Année",
+    "duration.semester": "Semestre",
+    "duration.quarter": "Trimestre",
+    "duration.month": "Mois",
+    "duration.week": "Semaine",
+    "mode.strict": "Strict",
+    "mode.flexible": "Souple",
+    "theme.primary": "Principal",
+    "theme.pink": "Rose",
+    "theme.green": "Vert",
+    "theme.blue": "Bleu",
+    "theme.dark": "Noir",
+    "theme.sunset": "Sunset",
+    "metric.done": "jours faits",
+    "metric.total": "jours prévus",
+    "metric.progress": "avancée",
+    "metric.streak": "streak",
+    "metric.record": "record",
+    "view.day": "Jour",
+    "view.week": "Semaine",
+    "view.month": "Mois",
+    "view.quarter": "Trimestre",
+    "view.semester": "Semestre",
+    "view.year": "Année",
+    "aria.settings": "Réglages de la progression",
+    "aria.summary": "Résumé",
+    "aria.tools": "Outils",
+    "aria.views": "Vues de progression",
+    "onboarding.title": "Configurer l'objectif",
+    "notification.unsupported": "Notifications non supportées",
+    "notification.unsupportedAll": "Notifications et vibration non supportées",
+    "notification.permissionGranted": "Notifications autorisées",
+    "notification.disabled": "Notifications désactivées",
+    "notification.disabledNoVibration": "Notifications désactivées · vibration non supportée",
+    "notification.active": "Rappel actif",
+    "notification.activeNoVibration": "Rappel actif · vibration non supportée",
+    "notification.blocked": "Notifications bloquées dans le navigateur",
+    "notification.needPermission": "Notifications à autoriser",
+    "notification.reminderTitle": "Jour {number} à valider",
+    "notification.reminderBody": "{title} · {date}",
+    "confirm.delete": "Supprimer \"{title}\" ?",
+    "alert.restoreSuccess": "Sauvegarde restaurée.",
+    "alert.restoreError": "Impossible de lire cette sauvegarde.",
+    "modeLabel.flexible": "Mode souple",
+    "modeLabel.strict": "Mode strict",
+    "strict.hint": "Tu peux aussi valider les jours passés dans les autres vues.",
+    "title.default": "Progression 365",
+    "title.newProgression": "Progression {number}",
+    "day.title": "Jour {number}",
+    "day.count": "{number} sur {total}",
+    "day.holdDone": "Fait",
+    "day.holdAction": "Tenir 5s",
+    "day.todayLower": "aujourd'hui",
+    "day.press": "appuyer",
+    "day.accomplished": "Accompli",
+    "day.inProgress": "En cours",
+    "day.validated": "La journée est validée.",
+    "week.title": "Semaine {number}",
+    "week.range": "Jours {start} - {end}",
+    "week.previous": "Semaine précédente",
+    "week.next": "Semaine suivante",
+    "week.outside": "Hors durée",
+    "status.done": "Fait",
+    "status.today": "Aujourd'hui",
+    "status.upcoming": "À venir",
+    "status.todo": "À faire",
+    "month.stats": "{total} jours · {done} faits",
+    "month.previous": "Mois précédent",
+    "month.next": "Mois suivant",
+    "calendar.outside": "Hors progression",
+    "quarter.title": "Trimestres",
+    "quarter.item": "Trimestre {number}",
+    "semester.title": "Semestres",
+    "semester.item": "Semestre {number}",
+    "group.count": "{count} groupe{plural}",
+    "year.done": "{count} faits",
+    "year.remaining": "{count} restants",
+    "empty.noDate": "Aucune date dans cette durée.",
+    "date.action.remove": "Retirer ce jour",
+    "date.action.validate": "Valider ce jour",
+    "date.action.strict": "Mode strict: validation depuis la vue Jour",
+    "export.summary": "{done}/{total} jours · streak {streak} · record {best}",
+  },
+  en: {
+    "meta.title": "Day++",
+    "meta.description": "Day++ turns a long goal into daily, weekly, and yearly progress.",
+    "status.offline": "Offline",
+    "action.update": "Update",
+    "action.install": "Install",
+    "action.guide": "Guide",
+    "action.export": "Export",
+    "action.today": "Today",
+    "action.settings": "Settings",
+    "action.close": "Close",
+    "action.more": "More",
+    "action.new": "New",
+    "action.delete": "Delete",
+    "action.apply": "Apply",
+    "action.currentYear": "Current year",
+    "action.exportImage": "Export image",
+    "action.backup": "Backup",
+    "action.restore": "Restore",
+    "action.reset": "Reset this period",
+    "action.start": "Start",
+    "action.allowNotifications": "Allow notifications",
+    "settings.progression": "Progression",
+    "settings.durationTitle": "Duration",
+    "settings.goal": "Goal",
+    "settings.type": "Type",
+    "settings.start": "Start",
+    "settings.end": "End",
+    "settings.mode": "Mode",
+    "settings.theme": "Theme",
+    "settings.dailyReminder": "Daily reminder",
+    "settings.reminderTime": "Reminder time",
+    "settings.vibration": "Vibration",
+    "duration.year": "Year",
+    "duration.semester": "Semester",
+    "duration.quarter": "Quarter",
+    "duration.month": "Month",
+    "duration.week": "Week",
+    "mode.strict": "Strict",
+    "mode.flexible": "Flexible",
+    "theme.primary": "Main",
+    "theme.pink": "Pink",
+    "theme.green": "Green",
+    "theme.blue": "Blue",
+    "theme.dark": "Dark",
+    "theme.sunset": "Sunset",
+    "metric.done": "days done",
+    "metric.total": "planned days",
+    "metric.progress": "progress",
+    "metric.streak": "streak",
+    "metric.record": "best",
+    "view.day": "Day",
+    "view.week": "Week",
+    "view.month": "Month",
+    "view.quarter": "Quarter",
+    "view.semester": "Semester",
+    "view.year": "Year",
+    "aria.settings": "Progression settings",
+    "aria.summary": "Summary",
+    "aria.tools": "Tools",
+    "aria.views": "Progression views",
+    "onboarding.title": "Set up your goal",
+    "notification.unsupported": "Notifications are not supported",
+    "notification.unsupportedAll": "Notifications and vibration are not supported",
+    "notification.permissionGranted": "Notifications allowed",
+    "notification.disabled": "Notifications disabled",
+    "notification.disabledNoVibration": "Notifications disabled · vibration not supported",
+    "notification.active": "Reminder active",
+    "notification.activeNoVibration": "Reminder active · vibration not supported",
+    "notification.blocked": "Notifications blocked in the browser",
+    "notification.needPermission": "Notifications need permission",
+    "notification.reminderTitle": "Day {number} is ready",
+    "notification.reminderBody": "{title} · {date}",
+    "confirm.delete": "Delete \"{title}\"?",
+    "alert.restoreSuccess": "Backup restored.",
+    "alert.restoreError": "Unable to read this backup.",
+    "modeLabel.flexible": "Flexible mode",
+    "modeLabel.strict": "Strict mode",
+    "strict.hint": "You can also validate past days from the other views.",
+    "title.default": "Progression 365",
+    "title.newProgression": "Progression {number}",
+    "day.title": "Day {number}",
+    "day.count": "{number} of {total}",
+    "day.holdDone": "Done",
+    "day.holdAction": "Hold 5s",
+    "day.todayLower": "today",
+    "day.press": "press",
+    "day.accomplished": "Done",
+    "day.inProgress": "In progress",
+    "day.validated": "This day is validated.",
+    "week.title": "Week {number}",
+    "week.range": "Days {start} - {end}",
+    "week.previous": "Previous week",
+    "week.next": "Next week",
+    "week.outside": "Outside period",
+    "status.done": "Done",
+    "status.today": "Today",
+    "status.upcoming": "Upcoming",
+    "status.todo": "To do",
+    "month.stats": "{total} days · {done} done",
+    "month.previous": "Previous month",
+    "month.next": "Next month",
+    "calendar.outside": "Outside progression",
+    "quarter.title": "Quarters",
+    "quarter.item": "Quarter {number}",
+    "semester.title": "Semesters",
+    "semester.item": "Semester {number}",
+    "group.count": "{count} group{plural}",
+    "year.done": "{count} done",
+    "year.remaining": "{count} remaining",
+    "empty.noDate": "No date in this duration.",
+    "date.action.remove": "Remove this day",
+    "date.action.validate": "Validate this day",
+    "date.action.strict": "Strict mode: validate from the Day view",
+    "export.summary": "{done}/{total} days · streak {streak} · best {best}",
+  },
 };
 
 const themes = {
@@ -177,10 +417,16 @@ init();
 
 async function init() {
   state = await loadState();
+  const requestedLocale = getRequestedLocale();
+  if (requestedLocale) {
+    state.locale = requestedLocale;
+    writeLocalePreference(requestedLocale);
+  }
   applyTheme();
   registerPwa();
   setInitialSettingsState();
   bindEvents();
+  applyLanguage();
   seedOnboardingForm();
 
   if (!state.onboardingComplete) {
@@ -197,6 +443,53 @@ async function init() {
   render();
 }
 
+function currentLocale() {
+  return normalizeLocale(state?.locale || detectPreferredLocale());
+}
+
+function detectPreferredLocale() {
+  const requested = getRequestedLocale();
+  if (requested) return requested;
+  const saved = readLocalePreference();
+  if (saved) return saved;
+  const language = (navigator.languages && navigator.languages[0]) || navigator.language || "fr";
+  return language.toLowerCase().startsWith("en") ? "en" : "fr";
+}
+
+function getRequestedLocale() {
+  const lang = new URLSearchParams(window.location.search).get("lang");
+  return lang === "en" || lang === "fr" ? lang : null;
+}
+
+function normalizeLocale(locale) {
+  return locale === "en" ? "en" : "fr";
+}
+
+function t(key, values = {}) {
+  const locale = currentLocale();
+  const template = translations[locale]?.[key] || translations.fr[key] || key;
+  return template.replace(/\{(\w+)\}/g, (_, name) => values[name] ?? "");
+}
+
+function applyLanguage() {
+  const locale = currentLocale();
+  document.documentElement.lang = locale;
+  document.title = t("meta.title");
+  els.metaDescription?.setAttribute("content", t("meta.description"));
+  els.languageSelect.value = locale;
+  els.guideLink.href = `guide.html?lang=${locale}`;
+
+  document.querySelectorAll("[data-i18n]").forEach((node) => {
+    node.textContent = t(node.dataset.i18n);
+  });
+  document.querySelectorAll("[data-i18n-aria-label]").forEach((node) => {
+    node.setAttribute("aria-label", t(node.dataset.i18nAriaLabel));
+  });
+
+  syncSettingsToggleLabel(document.body.classList.contains("settings-open"));
+  syncNotificationStatus();
+}
+
 function setInitialSettingsState() {
   const shouldOpen = window.matchMedia("(min-width: 861px)").matches;
   document.body.classList.toggle("settings-open", shouldOpen);
@@ -206,8 +499,22 @@ function setInitialSettingsState() {
 
 function bindEvents() {
   els.settingsToggle.addEventListener("click", () => toggleSettings());
+  els.moreActionsBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleActionsMenu();
+  });
+  els.actionsMenu.addEventListener("click", (event) => {
+    if (event.target.closest("button, a")) closeActionsMenu();
+  });
   els.updateBtn.addEventListener("click", activateWaitingServiceWorker);
   els.installBtn.addEventListener("click", installPwa);
+  els.languageSelect.addEventListener("change", () => {
+    state.locale = normalizeLocale(els.languageSelect.value);
+    writeLocalePreference(state.locale);
+    applyLanguage();
+    saveState();
+    render();
+  });
   els.todayBtn.addEventListener("click", goToToday);
   els.exportImageBtn.addEventListener("click", exportProgressImage);
   els.settingsExportImageBtn.addEventListener("click", exportProgressImage);
@@ -335,6 +642,12 @@ function bindEvents() {
   window.addEventListener("resize", resizeConfettiCanvas);
   window.addEventListener("online", syncOnlineStatus);
   window.addEventListener("offline", syncOnlineStatus);
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".more-actions")) closeActionsMenu();
+  });
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeActionsMenu();
+  });
   window.addEventListener("hashchange", () => {
     applyLaunchView();
     saveState();
@@ -469,8 +782,8 @@ function syncNotificationStatus() {
 
   if (permission === "unsupported") {
     els.notificationStatus.textContent = vibrationSupported
-      ? "Notifications non supportées"
-      : "Notifications et vibration non supportées";
+      ? t("notification.unsupported")
+      : t("notification.unsupportedAll");
     els.notificationPermissionBtn.disabled = true;
     return;
   }
@@ -479,27 +792,27 @@ function syncNotificationStatus() {
     permission === "granted" || permission === "denied";
   els.notificationPermissionBtn.textContent =
     permission === "granted"
-      ? "Notifications autorisées"
-      : "Autoriser les notifications";
+      ? t("notification.permissionGranted")
+      : t("action.allowNotifications");
 
   if (!enabled) {
     els.notificationStatus.textContent = vibrationSupported
-      ? "Notifications désactivées"
-      : "Notifications désactivées · vibration non supportée";
+      ? t("notification.disabled")
+      : t("notification.disabledNoVibration");
     return;
   }
 
   if (permission === "granted") {
     els.notificationStatus.textContent = vibrationSupported
-      ? "Rappel actif"
-      : "Rappel actif · vibration non supportée";
+      ? t("notification.active")
+      : t("notification.activeNoVibration");
     return;
   }
 
   els.notificationStatus.textContent =
     permission === "denied"
-      ? "Notifications bloquées dans le navigateur"
-      : "Notifications à autoriser";
+      ? t("notification.blocked")
+      : t("notification.needPermission");
 }
 
 function scheduleReminder() {
@@ -538,9 +851,12 @@ async function showDailyReminder() {
   if (isCompleted(active)) return;
 
   const number = dayNumber(period, active);
-  const title = `Jour ${number} à valider`;
+  const title = t("notification.reminderTitle", { number });
   const options = {
-    body: `${state.config.title} · ${formatShortDate(active)}`,
+    body: t("notification.reminderBody", {
+      title: state.config.title,
+      date: formatShortDate(active),
+    }),
     icon: "icons/day-plus-plus-192.png",
     badge: "icons/day-plus-plus-192.png",
     tag: `day-plus-plus-${state.activeProgressId}-${toDateKey(active)}`,
@@ -590,11 +906,12 @@ function createFallbackState() {
   const now = todayDate();
   return {
     version: 5,
+    locale: detectPreferredLocale(),
     onboardingComplete: false,
     activeProgressId: "default",
     progressions: {},
     config: {
-      title: "Progression 365",
+      title: t("title.default"),
       duration: "year",
       start: `${now.getFullYear()}-01-01`,
       end: `${now.getFullYear()}-12-31`,
@@ -629,6 +946,7 @@ function normalizeState(saved, fallback, hadSaved) {
     return hydrateActiveState({
       ...fallback,
       version: 5,
+      locale: normalizeLocale(saved.locale || fallback.locale),
       onboardingComplete: saved.onboardingComplete ?? ids.length > 0,
       activeProgressId,
       progressions,
@@ -653,6 +971,7 @@ function normalizeState(saved, fallback, hadSaved) {
   return hydrateActiveState({
     ...fallback,
     version: 5,
+    locale: normalizeLocale(saved.locale || fallback.locale),
     onboardingComplete: saved.onboardingComplete ?? false,
     activeProgressId: migrated.id,
     progressions: { [migrated.id]: migrated },
@@ -745,6 +1064,21 @@ function readLegacyState() {
 function writeLegacyState(serialized) {
   try {
     localStorage.setItem(STORAGE_KEY, serialized);
+  } catch {}
+}
+
+function readLocalePreference() {
+  try {
+    const saved = localStorage.getItem(`${STORAGE_KEY}.locale`);
+    return saved === "en" || saved === "fr" ? saved : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeLocalePreference(locale) {
+  try {
+    localStorage.setItem(`${STORAGE_KEY}.locale`, normalizeLocale(locale));
   } catch {}
 }
 
@@ -844,7 +1178,9 @@ function createProgression() {
     {
       id: makeProgressionId(),
       config: {
-        title: `Progression ${Object.keys(state.progressions).length + 1}`,
+        title: t("title.newProgression", {
+          number: Object.keys(state.progressions).length + 1,
+        }),
         duration: "year",
         start: `${now.getFullYear()}-01-01`,
         end: `${now.getFullYear()}-12-31`,
@@ -880,7 +1216,7 @@ function deleteActiveProgression() {
   const ids = Object.keys(state.progressions);
   if (ids.length <= 1) return;
   const activeTitle = state.config.title;
-  if (!confirm(`Supprimer "${activeTitle}" ?`)) return;
+  if (!confirm(t("confirm.delete", { title: activeTitle }))) return;
 
   delete state.progressions[state.activeProgressId];
   state.activeProgressId = Object.keys(state.progressions)[0];
@@ -1065,7 +1401,19 @@ function toggleSettings(forceOpen) {
 }
 
 function syncSettingsToggleLabel(isOpen) {
-  els.settingsToggle.textContent = isOpen ? "Fermer" : "Réglages";
+  els.settingsToggle.textContent = isOpen ? t("action.close") : t("action.settings");
+}
+
+function toggleActionsMenu(forceOpen) {
+  const willOpen =
+    typeof forceOpen === "boolean" ? forceOpen : els.actionsMenu.hidden;
+  els.actionsMenu.hidden = !willOpen;
+  els.moreActionsBtn.setAttribute("aria-expanded", String(willOpen));
+}
+
+function closeActionsMenu() {
+  if (els.actionsMenu.hidden) return;
+  toggleActionsMenu(false);
 }
 
 function closeSettingsOnSmallScreens() {
@@ -1104,18 +1452,18 @@ function ensureViewAllowed() {
 function renderDayView(period, active, totalDays, streak) {
   const number = dayNumber(period, active);
   const complete = isCompleted(active);
-  const label = complete ? "Fait" : "Tenir 5s";
-  const sub = complete ? "aujourd'hui" : "appuyer";
+  const label = complete ? t("day.holdDone") : t("day.holdAction");
+  const sub = complete ? t("day.todayLower") : t("day.press");
 
   els.viewHost.innerHTML = `
     <article class="view-panel">
       <div class="section-head">
         <div>
-          <h2>Jour ${number}</h2>
-          <p>${formatDate(active)} · ${number} sur ${totalDays}</p>
+          <h2>${t("day.title", { number })}</h2>
+          <p>${formatDate(active)} · ${t("day.count", { number, total: totalDays })}</p>
         </div>
         <div class="pill-row">
-          <span class="progress-pill">${complete ? "Accompli" : "En cours"}</span>
+          <span class="progress-pill">${complete ? t("day.accomplished") : t("day.inProgress")}</span>
           <span class="progress-pill streak-pill">${streak.current} streak</span>
         </div>
       </div>
@@ -1128,7 +1476,7 @@ function renderDayView(period, active, totalDays, streak) {
             </span>
           </button>
           <div class="day-date">${formatShortDate(active)}</div>
-          <div class="completion-note">${complete ? "La journée est validée." : strictHint()}</div>
+          <div class="completion-note">${complete ? t("day.validated") : strictHint()}</div>
         </div>
       </div>
     </article>
@@ -1159,13 +1507,13 @@ function renderWeekView(period, active) {
     <article class="view-panel">
       <div class="section-head">
         <div>
-          <h2>Semaine ${Math.ceil(weekStartNumber / 7)}</h2>
-          <p>Jours ${weekStartNumber} - ${Math.min(weekStartNumber + 6, days.length)}</p>
+          <h2>${t("week.title", { number: Math.ceil(weekStartNumber / 7) })}</h2>
+          <p>${t("week.range", { start: weekStartNumber, end: Math.min(weekStartNumber + 6, days.length) })}</p>
         </div>
         <div class="nav-arrows">
-          <button class="round-nav" type="button" data-week-prev ${weekStartNumber === 1 ? "disabled" : ""} aria-label="Semaine précédente">&lsaquo;</button>
+          <button class="round-nav" type="button" data-week-prev ${weekStartNumber === 1 ? "disabled" : ""} aria-label="${t("week.previous")}">&lsaquo;</button>
           <span class="progress-pill">${Math.round((complete / visible) * 100)}%</span>
-          <button class="round-nav" type="button" data-week-next ${weekStartNumber + 7 > days.length ? "disabled" : ""} aria-label="Semaine suivante">&rsaquo;</button>
+          <button class="round-nav" type="button" data-week-next ${weekStartNumber + 7 > days.length ? "disabled" : ""} aria-label="${t("week.next")}">&rsaquo;</button>
         </div>
       </div>
       <div class="week-track">
@@ -1181,7 +1529,7 @@ function renderWeekDay(period, day, index) {
       <div class="week-day is-outside">
         <div class="day-bubble">-</div>
         <div class="week-label">
-          <span class="week-name">Hors durée</span>
+          <span class="week-name">${t("week.outside")}</span>
           <span class="week-date">-</span>
         </div>
         <div class="week-status">-</div>
@@ -1194,12 +1542,12 @@ function renderWeekDay(period, day, index) {
   const isFuture = day.date > todayDate();
   const actionable = canToggleDate(day.date);
   const status = complete
-    ? "Fait"
+    ? t("status.done")
     : isToday
-      ? "Aujourd'hui"
+      ? t("status.today")
       : isFuture
-        ? "À venir"
-        : "À faire";
+        ? t("status.upcoming")
+        : t("status.todo");
   const classes = [
     "week-day",
     complete ? "is-complete" : "",
@@ -1250,12 +1598,12 @@ function renderMonthView(period, active) {
         <div class="section-head">
           <div>
             <h2>${month.title}</h2>
-            <p>${month.days.length} jours · ${complete} faits</p>
+            <p>${t("month.stats", { total: month.days.length, done: complete })}</p>
           </div>
           <div class="nav-arrows">
-            <button class="round-nav" type="button" data-month-prev ${index === 0 ? "disabled" : ""} aria-label="Mois précédent">&lsaquo;</button>
+            <button class="round-nav" type="button" data-month-prev ${index === 0 ? "disabled" : ""} aria-label="${t("month.previous")}">&lsaquo;</button>
             <span class="progress-pill">${percent}%</span>
-            <button class="round-nav" type="button" data-month-next ${index === months.length - 1 ? "disabled" : ""} aria-label="Mois suivant">&rsaquo;</button>
+            <button class="round-nav" type="button" data-month-next ${index === months.length - 1 ? "disabled" : ""} aria-label="${t("month.next")}">&rsaquo;</button>
           </div>
         </div>
         ${renderCalendarMonth(period, month)}
@@ -1265,7 +1613,7 @@ function renderMonthView(period, active) {
 }
 
 function renderCalendarMonth(period, month) {
-  const weekdays = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
+  const weekdays = weekdayLabels("short");
   const first = new Date(month.year, month.month, 1);
   const last = new Date(month.year, month.month + 1, 0);
   const cells = [];
@@ -1323,7 +1671,7 @@ function renderCalendarDay(period, date, index, firstIndex, lastIndex) {
     .join(" ");
 
   return `
-    <div class="${classes}" ${inPeriod ? `data-date-action="${toDateKey(date)}"` : ""} title="${inPeriod ? dateActionTitle(date) : "Hors progression"}">
+    <div class="${classes}" ${inPeriod ? `data-date-action="${toDateKey(date)}"` : ""} title="${inPeriod ? dateActionTitle(date) : t("calendar.outside")}">
       <div class="calendar-number">${date.getDate()}</div>
     </div>
   `;
@@ -1335,12 +1683,12 @@ function renderQuarterView(period) {
     <article class="view-panel">
       <div class="section-head">
         <div>
-          <h2>Trimestres</h2>
-          <p>${quarters.length} groupe${quarters.length > 1 ? "s" : ""}</p>
+          <h2>${t("quarter.title")}</h2>
+          <p>${t("group.count", { count: quarters.length, plural: quarters.length > 1 ? "s" : "" })}</p>
         </div>
       </div>
       <div class="group-grid">
-        ${quarters.map((months, index) => renderGroupCard(`Trimestre ${index + 1}`, months)).join("")}
+        ${quarters.map((months, index) => renderGroupCard(t("quarter.item", { number: index + 1 }), months)).join("")}
       </div>
     </article>
   `;
@@ -1352,12 +1700,12 @@ function renderSemesterView(period) {
     <article class="view-panel">
       <div class="section-head">
         <div>
-          <h2>Semestres</h2>
-          <p>${semesters.length} groupe${semesters.length > 1 ? "s" : ""}</p>
+          <h2>${t("semester.title")}</h2>
+          <p>${t("group.count", { count: semesters.length, plural: semesters.length > 1 ? "s" : "" })}</p>
         </div>
       </div>
       <div class="group-grid">
-        ${semesters.map((months, index) => renderGroupCard(`Semestre ${index + 1}`, months)).join("")}
+        ${semesters.map((months, index) => renderGroupCard(t("semester.item", { number: index + 1 }), months)).join("")}
       </div>
     </article>
   `;
@@ -1419,8 +1767,8 @@ function renderYearView(period, streak) {
           <span style="--width: ${percent}%"></span>
         </div>
         <div class="year-stats">
-          <span>${done} faits</span>
-          <span>${remaining} restants</span>
+          <span>${t("year.done", { count: done })}</span>
+          <span>${t("year.remaining", { count: remaining })}</span>
           <span>${streak.current} streak</span>
           <span>${streak.best} record</span>
         </div>
@@ -1466,7 +1814,7 @@ function renderYearDot(day) {
 function renderEmpty() {
   els.viewHost.innerHTML = `
     <article class="view-panel empty-state">
-      <p>Aucune date dans cette durée.</p>
+      <p>${t("empty.noDate")}</p>
     </article>
   `;
 }
@@ -1547,9 +1895,9 @@ function canToggleDate(date) {
 
 function dateActionTitle(date) {
   if (canToggleDate(date))
-    return isCompleted(date) ? "Retirer ce jour" : "Valider ce jour";
+    return isCompleted(date) ? t("date.action.remove") : t("date.action.validate");
   return state.config.mode === "strict"
-    ? "Mode strict: validation depuis la vue Jour"
+    ? t("date.action.strict")
     : "";
 }
 
@@ -1661,11 +2009,11 @@ function getPeriodMonths(period) {
       key: `${year}-${pad(month + 1)}`,
       year,
       month,
-      title: new Intl.DateTimeFormat("fr-FR", {
+      title: new Intl.DateTimeFormat(localeCode(), {
         month: "long",
         year: "numeric",
       }).format(cursor),
-      shortTitle: new Intl.DateTimeFormat("fr-FR", {
+      shortTitle: new Intl.DateTimeFormat(localeCode(), {
         month: "short",
         year: "2-digit",
       }).format(cursor),
@@ -1734,7 +2082,12 @@ function exportProgressImage() {
   ctx.fillStyle = theme.muted;
   ctx.font = "800 22px system-ui, sans-serif";
   ctx.fillText(
-    `${done}/${days.length} jours · streak ${streak.current} · record ${streak.best}`,
+    t("export.summary", {
+      done,
+      total: days.length,
+      streak: streak.current,
+      best: streak.best,
+    }),
     width - margin,
     margin + 116,
   );
@@ -1783,7 +2136,7 @@ function drawExportMonth(ctx, month, x, y, width, height, theme) {
   const activeDays = new Map(
     month.days.map((day) => [toDateKey(day.date), day]),
   );
-  const weekdays = ["D", "L", "M", "M", "J", "V", "S"];
+  const weekdays = weekdayLabels("narrow");
 
   drawRoundRect(ctx, x, y, width, height, 12, "#ffffff");
   ctx.strokeStyle = theme.line;
@@ -1873,9 +2226,9 @@ function restoreBackup(event) {
       seedOnboardingForm();
       hideOnboarding();
       render();
-      alert("Sauvegarde restaurée.");
+      alert(t("alert.restoreSuccess"));
     } catch {
-      alert("Impossible de lire cette sauvegarde.");
+      alert(t("alert.restoreError"));
     } finally {
       els.restoreInput.value = "";
     }
@@ -1918,20 +2271,20 @@ function currentTheme() {
 }
 
 function modeLabel() {
-  return state.config.mode === "flexible" ? "Mode souple" : "Mode strict";
+  return state.config.mode === "flexible" ? t("modeLabel.flexible") : t("modeLabel.strict");
 }
 
 function strictHint() {
   return state.config.mode === "flexible"
-    ? "Tu peux aussi valider les jours passés dans les autres vues."
+    ? t("strict.hint")
     : "";
 }
 
 function cleanTitle(value) {
   return (
-    String(value || "Progression 365")
+    String(value || t("title.default"))
       .trim()
-      .slice(0, 42) || "Progression 365"
+      .slice(0, 42) || t("title.default")
   );
 }
 
@@ -2036,7 +2389,7 @@ function pad(value) {
 }
 
 function formatDate(date) {
-  return new Intl.DateTimeFormat("fr-FR", {
+  return new Intl.DateTimeFormat(localeCode(), {
     day: "2-digit",
     month: "long",
     year: "numeric",
@@ -2044,7 +2397,7 @@ function formatDate(date) {
 }
 
 function formatShortDate(date) {
-  return new Intl.DateTimeFormat("fr-FR", {
+  return new Intl.DateTimeFormat(localeCode(), {
     day: "2-digit",
     month: "short",
   }).format(date);
@@ -2052,11 +2405,20 @@ function formatShortDate(date) {
 
 function weekdayName(date, fallbackIndex) {
   if (date) {
-    return new Intl.DateTimeFormat("fr-FR", { weekday: "short" }).format(date);
+    return new Intl.DateTimeFormat(localeCode(), { weekday: "short" }).format(date);
   }
-  return ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."][
-    fallbackIndex
-  ];
+  return weekdayLabels("short")[fallbackIndex];
+}
+
+function weekdayLabels(width) {
+  const base = new Date(2026, 4, 24);
+  return Array.from({ length: 7 }, (_, index) =>
+    new Intl.DateTimeFormat(localeCode(), { weekday: width }).format(addDays(base, index)),
+  );
+}
+
+function localeCode() {
+  return currentLocale() === "en" ? "en-US" : "fr-FR";
 }
 
 function slugify(value) {
