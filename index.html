@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#004482" />
+    <meta
+      name="description"
+      content="Day++ transforme un objectif long en progression quotidienne, hebdomadaire et annuelle."
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Day++" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Progression 365</title>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-19ZNNEVK2R"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-19ZNNEVK2R");
+    </script>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="icons/day-plus-plus-192.png"
+    />
+    <link rel="apple-touch-icon" href="icons/day-plus-plus-192.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="title-block">
+          <p class="eyebrow">Day++</p>
+          <h1 id="periodTitle">Progression 365</h1>
+          <p id="periodSubtitle" class="subtitle"></p>
+        </div>
+        <div class="top-actions">
+          <span id="offlineBadge" class="status-badge" hidden>Hors ligne</span>
+          <button
+            id="updateBtn"
+            class="soft-button update-button"
+            type="button"
+            hidden
+          >
+            Mettre à jour
+          </button>
+          <button
+            id="installBtn"
+            class="soft-button install-button"
+            type="button"
+            hidden
+          >
+            Installer
+          </button>
+          <button id="exportImageBtn" class="soft-button" type="button">
+            Exporter
+          </button>
+          <button id="todayBtn" class="soft-button" type="button">
+            Aujourd'hui
+          </button>
+          <button
+            id="settingsToggle"
+            class="soft-button"
+            type="button"
+            aria-expanded="false"
+            aria-controls="settingsPanel"
+          >
+            Réglages
+          </button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside
+          id="settingsPanel"
+          class="settings-panel"
+          aria-label="Réglages de la progression"
+        >
+          <div class="progression-switcher">
+            <label>
+              Progression
+              <select id="progressSelect"></select>
+            </label>
+            <div class="progression-actions">
+              <button id="newProgressBtn" class="ghost-button" type="button">
+                Nouvelle
+              </button>
+              <button id="deleteProgressBtn" class="ghost-button" type="button">
+                Supprimer
+              </button>
+            </div>
+          </div>
+          <h2>Durée</h2>
+          <form id="settingsForm" class="settings-form">
+            <label>
+              Objectif
+              <input
+                id="goalTitle"
+                name="goalTitle"
+                type="text"
+                maxlength="42"
+              />
+            </label>
+            <label>
+              Type
+              <select id="durationType" name="durationType">
+                <option value="year">Année</option>
+                <option value="semester">Semestre</option>
+                <option value="quarter">Trimestre</option>
+                <option value="month">Mois</option>
+                <option value="week">Semaine</option>
+              </select>
+            </label>
+            <label>
+              Début
+              <input id="startDate" name="startDate" type="date" />
+            </label>
+            <label>
+              Fin
+              <input id="endDate" name="endDate" type="date" />
+            </label>
+            <label>
+              Mode
+              <select id="progressMode" name="progressMode">
+                <option value="strict">Strict</option>
+                <option value="flexible">Souple</option>
+              </select>
+            </label>
+            <label>
+              Thème
+              <select id="themeSelect" name="themeSelect">
+                <option value="primary">Principal</option>
+                <option value="pink">Rose</option>
+                <option value="green">Vert</option>
+                <option value="blue">Bleu</option>
+                <option value="dark">Noir</option>
+                <option value="sunset">Sunset</option>
+              </select>
+            </label>
+            <label class="toggle-label">
+              <input
+                id="notificationToggle"
+                name="notificationToggle"
+                type="checkbox"
+              />
+              <span>Rappel quotidien</span>
+            </label>
+            <label>
+              Heure du rappel
+              <input
+                id="notificationTime"
+                name="notificationTime"
+                type="time"
+                value="09:00"
+              />
+            </label>
+            <label class="toggle-label">
+              <input
+                id="vibrationToggle"
+                name="vibrationToggle"
+                type="checkbox"
+              />
+              <span>Vibration</span>
+            </label>
+            <button
+              id="notificationPermissionBtn"
+              class="ghost-button"
+              type="button"
+            >
+              Autoriser les notifications
+            </button>
+            <p id="notificationStatus" class="settings-note">
+              Notifications désactivées
+            </p>
+            <div class="form-actions">
+              <button class="primary-button" type="submit">Appliquer</button>
+              <button id="currentYearBtn" class="ghost-button" type="button">
+                Année actuelle
+              </button>
+            </div>
+          </form>
+
+          <div class="metric-list" aria-label="Résumé">
+            <div class="metric">
+              <span class="metric-value" id="metricDone">0</span>
+              <span class="metric-label">jours faits</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value" id="metricTotal">365</span>
+              <span class="metric-label">jours prévus</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value" id="metricPercent">0%</span>
+              <span class="metric-label">avancée</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value" id="metricStreak">0</span>
+              <span class="metric-label">streak</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value" id="metricBestStreak">0</span>
+              <span class="metric-label">record</span>
+            </div>
+          </div>
+
+          <div class="tool-stack" aria-label="Outils">
+            <button
+              id="settingsExportImageBtn"
+              class="ghost-button"
+              type="button"
+            >
+              Exporter l'image
+            </button>
+            <button id="backupBtn" class="ghost-button" type="button">
+              Sauvegarder
+            </button>
+            <button id="restoreBtn" class="ghost-button" type="button">
+              Restaurer
+            </button>
+            <input
+              id="restoreInput"
+              type="file"
+              accept="application/json"
+              hidden
+            />
+          </div>
+
+          <button id="resetProgressBtn" class="danger-button" type="button">
+            Réinitialiser cette durée
+          </button>
+        </aside>
+
+        <section class="workspace">
+          <nav id="viewTabs" class="view-tabs" aria-label="Vues de progression">
+            <button type="button" data-view="day">Jour</button>
+            <button type="button" data-view="week">Semaine</button>
+            <button type="button" data-view="month">Mois</button>
+            <button type="button" data-view="quarter">Trimestre</button>
+            <button type="button" data-view="semester">Semestre</button>
+            <button type="button" data-view="year">Année</button>
+          </nav>
+
+          <section id="viewHost" class="view-host" aria-live="polite"></section>
+        </section>
+      </main>
+    </div>
+
+    <div
+      id="onboardingModal"
+      class="onboarding-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="onboardingTitle"
+    >
+      <form id="onboardingForm" class="onboarding-card">
+        <p class="eyebrow">Day++</p>
+        <h2 id="onboardingTitle">Configurer l'objectif</h2>
+        <div class="onboarding-grid">
+          <label>
+            Objectif
+            <input
+              id="onboardingGoalTitle"
+              type="text"
+              maxlength="42"
+              value="Progression 365"
+            />
+          </label>
+          <label>
+            Durée
+            <select id="onboardingDuration">
+              <option value="year">Année</option>
+              <option value="semester">Semestre</option>
+              <option value="quarter">Trimestre</option>
+              <option value="month">Mois</option>
+              <option value="week">Semaine</option>
+            </select>
+          </label>
+          <label>
+            Début
+            <input id="onboardingStart" type="date" />
+          </label>
+          <label>
+            Fin
+            <input id="onboardingEnd" type="date" />
+          </label>
+          <label>
+            Mode
+            <select id="onboardingMode">
+              <option value="strict">Strict</option>
+              <option value="flexible">Souple</option>
+            </select>
+          </label>
+          <label>
+            Thème
+            <select id="onboardingTheme">
+              <option value="primary">Principal</option>
+              <option value="pink">Rose</option>
+              <option value="green">Vert</option>
+              <option value="blue">Bleu</option>
+              <option value="dark">Noir</option>
+              <option value="sunset">Sunset</option>
+            </select>
+          </label>
+        </div>
+        <button class="primary-button" type="submit">Démarrer</button>
+      </form>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

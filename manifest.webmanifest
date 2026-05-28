@@ -1,0 +1,66 @@
+{
+  "name": "Day++",
+  "short_name": "Day++",
+  "description": "Une progression quotidienne découpée en jours, semaines, mois, trimestres, semestres et année.",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "background_color": "#f5f8fc",
+  "theme_color": "#004482",
+  "categories": ["productivity", "health", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Aujourd'hui",
+      "short_name": "Jour",
+      "url": "./index.html#day",
+      "icons": [
+        {
+          "src": "icons/day-plus-plus-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Progression annuelle",
+      "short_name": "Année",
+      "url": "./index.html#year",
+      "icons": [
+        {
+          "src": "icons/day-plus-plus-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "icons/day-plus-plus-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/day-plus-plus-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/day-plus-plus-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/day-plus-plus-maskable.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
