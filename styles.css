@@ -18,6 +18,7 @@
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -48,6 +49,20 @@ body[data-theme="dark"] {
       rgba(246, 79, 146, 0.22),
       transparent 34rem),
     linear-gradient(135deg, #111318 0%, #1d2028 100%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 41, 70, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s;
 }
 
 button,
@@ -148,12 +163,36 @@ button:disabled {
   font-weight: 760;
   font-size: 0.8rem;
   text-decoration: none;
+  transition: transform 0.1s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  will-change: transform;
+}
+
+.soft-button:active,
+.ghost-button:active,
+.primary-button:active,
+.danger-button:active,
+.language-select:active,
+.round-nav:active {
+  transform: scale(0.97);
 }
 
 .soft-button {
   background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-color: var(--line);
   box-shadow: 0 8px 24px rgba(45, 49, 56, 0.06);
+}
+
+.soft-button:hover,
+.ghost-button:hover,
+.round-nav:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+body[data-theme="dark"] .soft-button:hover,
+body[data-theme="dark"] .ghost-button:hover {
+  background-color: #1e222e !important;
 }
 
 .status-badge {
@@ -205,7 +244,9 @@ button:disabled {
   gap: 6px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 8px;
   box-shadow: var(--shadow);
 }
@@ -251,12 +292,21 @@ button:disabled {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: var(--ink);
-  padding: 0 10px;
+  padding: 0 28px 0 10px;
   font-weight: 760;
   font-size: 0.8rem;
   box-shadow: 0 8px 24px rgba(45, 49, 56, 0.06);
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23082946' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 14px;
 }
 
 .ghost-button {
@@ -279,16 +329,15 @@ button:disabled {
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 18px;
   align-items: start;
 }
 
 body.settings-open .layout {
-  grid-template-columns: 304px minmax(0, 1fr);
+  /* No template override needed as settings-panel transitions its width */
 }
 
-.settings-panel,
 .view-host {
   background: rgba(255, 255, 255, 0.84);
   border: 1px solid rgba(234, 223, 229, 0.9);
@@ -297,14 +346,40 @@ body.settings-open .layout {
 }
 
 .settings-panel {
-  display: none;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: block;
   position: sticky;
   top: 18px;
-  padding: 18px;
+  width: 0;
+  margin-right: -18px;
+  padding: 18px 0;
+  opacity: 0;
+  transform: translateX(-20px);
+  pointer-events: none;
+  visibility: hidden;
+  overflow: hidden;
+  transition: 
+    width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    margin-right 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    padding 0.3s ease,
+    border-color 0.25s ease,
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.25s ease,
+    visibility 0.3s;
 }
 
 body.settings-open .settings-panel {
-  display: block;
+  width: 304px;
+  margin-right: 0;
+  padding: 18px;
+  border-color: rgba(234, 223, 229, 0.9);
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  visibility: visible;
 }
 
 .settings-panel h2 {
@@ -761,6 +836,10 @@ body.settings-open .settings-panel {
 
 .week-day.is-today .week-status {
   color: var(--accent);
+}
+
+.week-day.is-missed .week-status {
+  color: #9b4d12;
 }
 
 .week-day.is-actionable,
@@ -1272,6 +1351,10 @@ body[data-theme="dark"] .status-badge {
   color: var(--accent-mid);
 }
 
+body[data-theme="dark"] .week-day.is-missed .week-status {
+  color: var(--warn);
+}
+
 body[data-theme="dark"] .update-button {
   background: var(--accent);
   border-color: var(--accent);
@@ -1281,6 +1364,11 @@ body[data-theme="dark"] .update-button {
 body[data-theme="dark"] .primary-button {
   background: var(--accent);
   color: #fff;
+}
+
+body[data-theme="dark"] .language-select {
+  background-color: #161922;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f6f7fb' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
 }
 
 @media (max-width: 860px) {
@@ -1337,13 +1425,37 @@ body[data-theme="dark"] .primary-button {
   }
 
   .settings-panel {
-    display: none;
-    position: static;
-    margin-bottom: 14px;
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80vh;
+    max-height: 520px;
+    z-index: 100;
+    border-radius: var(--radius) var(--radius) 0 0;
+    margin-right: 0;
+    padding: 20px;
+    overflow-y: auto;
+    opacity: 1;
+    transform: translateY(100%);
+    pointer-events: none;
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
   }
 
   body.settings-open .settings-panel {
-    display: block;
+    width: 100%;
+    transform: translateY(0);
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  body.settings-open::after {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
   }
 
   .view-host,
@@ -1431,6 +1543,10 @@ body[data-theme="dark"] .primary-button {
   .week-day.is-today {
     border-color: rgba(246, 79, 146, 0.4);
     background: linear-gradient(90deg, #fff4f8, #fff);
+  }
+
+  .week-day.is-missed {
+    background: linear-gradient(90deg, #fff4e0, #fff);
   }
 
   .calendar-grid {

@@ -186,6 +186,7 @@ const translations = {
     "status.done": "Fait",
     "status.today": "Aujourd'hui",
     "status.upcoming": "À venir",
+    "status.missed": "Manqué",
     "status.todo": "À faire",
     "month.stats": "{total} jours · {done} faits",
     "month.previous": "Mois précédent",
@@ -302,6 +303,7 @@ const translations = {
     "status.done": "Done",
     "status.today": "Today",
     "status.upcoming": "Upcoming",
+    "status.missed": "Missed",
     "status.todo": "To do",
     "month.stats": "{total} days · {done} done",
     "month.previous": "Previous month",
@@ -644,9 +646,22 @@ function bindEvents() {
   window.addEventListener("offline", syncOnlineStatus);
   document.addEventListener("click", (event) => {
     if (!event.target.closest(".more-actions")) closeActionsMenu();
+    if (
+      document.body.classList.contains("settings-open") &&
+      window.matchMedia("(max-width: 860px)").matches &&
+      !event.target.closest("#settingsPanel") &&
+      !event.target.closest("#settingsToggle")
+    ) {
+      toggleSettings(false);
+    }
   });
   window.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeActionsMenu();
+    if (event.key === "Escape") {
+      closeActionsMenu();
+      if (document.body.classList.contains("settings-open")) {
+        toggleSettings(false);
+      }
+    }
   });
   window.addEventListener("hashchange", () => {
     applyLaunchView();
@@ -1376,7 +1391,13 @@ function syncTabs() {
     const isAllowed = allowedViews.includes(button.dataset.view);
     button.hidden = !isAllowed;
     button.disabled = !isAllowed;
-    button.classList.toggle("is-active", button.dataset.view === state.view);
+    const isActive = button.dataset.view === state.view;
+    button.classList.toggle("is-active", isActive);
+    if (isActive) {
+      window.setTimeout(() => {
+        button.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      }, 0);
+    }
   });
 }
 
@@ -1540,6 +1561,8 @@ function renderWeekDay(period, day, index) {
   const complete = isCompleted(day.date);
   const isToday = isSameDate(day.date, todayDate());
   const isFuture = day.date > todayDate();
+  const isMissed =
+    !complete && !isToday && !isFuture && state.config.mode === "strict";
   const actionable = canToggleDate(day.date);
   const status = complete
     ? t("status.done")
@@ -1547,12 +1570,15 @@ function renderWeekDay(period, day, index) {
       ? t("status.today")
       : isFuture
         ? t("status.upcoming")
-        : t("status.todo");
+        : isMissed
+          ? t("status.missed")
+          : t("status.todo");
   const classes = [
     "week-day",
     complete ? "is-complete" : "",
     isToday ? "is-today" : "",
     isFuture ? "is-future" : "",
+    isMissed ? "is-missed" : "",
     actionable ? "is-actionable" : "is-locked",
   ]
     .filter(Boolean)
@@ -2495,12 +2521,12 @@ function celebrate() {
     y: window.innerHeight * 0.42,
     vx: (Math.random() - 0.5) * 13,
     vy: Math.random() * -11 - 4,
-    size: Math.random() * 12 + 10,
+    size: Math.random() * 18 + 14,
     rotation: Math.random() * Math.PI,
-    spin: (Math.random() - 0.5) * 0.32,
+    spin: (Math.random() - 0.5) * 0.42,
     color: colors[Math.floor(Math.random() * colors.length)],
-    shape: Math.random() > 0.22 ? "plus" : "square",
-    life: Math.random() * 50 + 70,
+    shape: randomConfettiShape(),
+    life: Math.random() * 60 + 78,
   }));
 
   const draw = () => {
@@ -2519,23 +2545,18 @@ function celebrate() {
       context.fillStyle = particle.color;
       context.strokeStyle = particle.color;
       context.globalAlpha = Math.max(0, particle.life / 90);
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.font = `900 ${particle.size}px Inter, system-ui, sans-serif`;
 
       if (particle.shape === "plus") {
-        context.lineWidth = Math.max(2, particle.size * 0.18);
-        context.lineCap = "round";
-        context.beginPath();
-        context.moveTo(-particle.size / 2, 0);
-        context.lineTo(particle.size / 2, 0);
-        context.moveTo(0, -particle.size / 2);
-        context.lineTo(0, particle.size / 2);
-        context.stroke();
+        context.fillText("+", 0, 0);
+      } else if (particle.shape === "doublePlus") {
+        context.font = `950 ${particle.size * 0.82}px Inter, system-ui, sans-serif`;
+        context.fillText("++", 0, 0);
       } else {
-        context.fillRect(
-          -particle.size / 2,
-          -particle.size / 2,
-          particle.size,
-          particle.size * 0.64,
-        );
+        context.font = `950 ${particle.size * 0.62}px Inter, system-ui, sans-serif`;
+        context.fillText("D++", 0, 0);
       }
 
       context.restore();
@@ -2549,4 +2570,11 @@ function celebrate() {
   };
 
   draw();
+}
+
+function randomConfettiShape() {
+  const seed = Math.random();
+  if (seed > 0.82) return "logo";
+  if (seed > 0.64) return "doublePlus";
+  return "plus";
 }
