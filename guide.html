@@ -53,9 +53,9 @@
       </header>
 
       <section class="guide-hero">
-        <h1 data-i18n="guide.heroTitle">Un jour à la fois.</h1>
+        <h1 data-i18n="guide.heroTitle">Comprendre Day++.</h1>
         <p data-i18n="guide.heroText">
-          Day++ découpe un objectif long en vues plus petites pour garder le cerveau concentré sur l'action du jour.
+          Day++ transforme une progression longue en décisions simples : valider aujourd'hui, lire la semaine, puis garder du recul avec les vues longues.
         </p>
       </section>
 
@@ -70,56 +70,121 @@
       </section>
 
       <section class="guide-section">
+        <h2 data-i18n="guide.interfaceTitle">Lire l'interface</h2>
+        <div class="guide-grid">
+          <article class="guide-card">
+            <h3 data-i18n="guide.headerTitle">En-tête</h3>
+            <ul>
+              <li data-i18n="guide.header1">Le titre affiche la progression active et le total validé.</li>
+              <li data-i18n="guide.header2">Aujourd'hui ramène directement à la journée à valider.</li>
+              <li data-i18n="guide.header3">Le sélecteur de langue change l'app et le guide.</li>
+            </ul>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.navTitle">Navigation</h3>
+            <ul>
+              <li data-i18n="guide.nav1">Les onglets affichent seulement les vues compatibles avec la durée choisie.</li>
+              <li data-i18n="guide.nav2">Jour sert à l'action, semaine au suivi court, mois et année au recul.</li>
+              <li data-i18n="guide.nav3">Les flèches changent de semaine ou de mois sans modifier tes validations.</li>
+            </ul>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.settingsPanelTitle">Panneau Réglages</h3>
+            <ul>
+              <li data-i18n="guide.settingsPanel1">Il regroupe objectif, dates, durée, mode, thème et rappels.</li>
+              <li data-i18n="guide.settingsPanel2">Les compteurs indiquent les jours faits, prévus, le pourcentage, la série actuelle et le record.</li>
+              <li data-i18n="guide.settingsPanel3">Sur mobile, le panneau s'ouvre comme une feuille pour garder la progression lisible.</li>
+            </ul>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.moreTitle">Menu Plus</h3>
+            <ul>
+              <li data-i18n="guide.more1">Exporter crée une image partageable de la progression.</li>
+              <li data-i18n="guide.more2">Installer ajoute Day++ comme application si le navigateur le propose.</li>
+              <li data-i18n="guide.more3">Mettre à jour apparaît uniquement quand une nouvelle version est déjà prête.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="guide-section">
         <h2 data-i18n="guide.viewsTitle">Comprendre les vues</h2>
         <div class="guide-grid">
           <article class="guide-card">
             <h3 data-i18n="guide.dayTitle">Jour</h3>
-            <p data-i18n="guide.dayText">La vue principale. Ton objectif devient simplement : valider aujourd'hui.</p>
+            <p data-i18n="guide.dayText">La vue principale. Le bouton rond demande un maintien de 5 secondes pour éviter les validations accidentelles. Une fois le jour validé, Day++ célèbre l'action puis ouvre la semaine.</p>
           </article>
           <article class="guide-card">
             <h3 data-i18n="guide.weekTitle">Semaine</h3>
-            <p data-i18n="guide.weekText">Une progression courte de 7 jours, utile pour voir que tu avances sans afficher toute l'année.</p>
+            <p data-i18n="guide.weekText">La semaine montre chaque jour, son numéro, sa date et son état : Fait, Aujourd'hui, À venir, À faire en mode souple, ou Manqué en mode strict.</p>
           </article>
           <article class="guide-card">
-            <h3 data-i18n="guide.monthTitle">Mois, trimestre, semestre</h3>
-            <p data-i18n="guide.monthText">Ces vues servent à prendre du recul sans transformer le défi en montagne.</p>
+            <h3 data-i18n="guide.monthTitle">Mois</h3>
+            <p data-i18n="guide.monthText">Le mois sert à repérer les trous et les séries. En mode souple, les jours passés restent modifiables depuis cette vue.</p>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.groupsTitle">Trimestre et semestre</h3>
+            <p data-i18n="guide.groupsText">Ces vues regroupent les jours par blocs. Elles sont utiles pour comparer les périodes sans lire chaque date une par une.</p>
           </article>
           <article class="guide-card">
             <h3 data-i18n="guide.yearTitle">Année</h3>
-            <p data-i18n="guide.yearText">La vue annuelle est pensée pour les captures d'écran et le bilan global.</p>
+            <p data-i18n="guide.yearText">La vue annuelle donne le bilan global avec des points par jour et des groupes par mois. Elle est pensée pour les captures d'écran et les bilans.</p>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.statusTitle">États des jours</h3>
+            <p data-i18n="guide.statusText">Fait signifie validé. Aujourd'hui est le jour actif. À venir est verrouillé par le temps. À faire reste possible en mode souple. Manqué signale un jour passé non validé en mode strict.</p>
           </article>
         </div>
       </section>
 
       <section class="guide-section">
-        <h2 data-i18n="guide.settingsTitle">Réglages utiles</h2>
+        <h2 data-i18n="guide.settingsTitle">Réglages et modes</h2>
         <div class="guide-grid">
           <article class="guide-card">
             <h3 data-i18n="guide.durationTitle">Durée</h3>
-            <p data-i18n="guide.durationText">Tu peux choisir une semaine, un mois, un trimestre, un semestre ou une année personnalisée.</p>
+            <p data-i18n="guide.durationText">Tu peux choisir une semaine, un mois, un trimestre, un semestre ou une année. La date de fin est proposée automatiquement, mais reste modifiable.</p>
           </article>
           <article class="guide-card">
             <h3 data-i18n="guide.modeTitle">Mode strict / souple</h3>
-            <p data-i18n="guide.modeText">Le mode strict valide depuis la vue Jour. Le mode souple permet aussi de corriger les jours passés.</p>
+            <p data-i18n="guide.modeText">Le mode strict garde le rituel quotidien : un jour passé non validé devient Manqué. Le mode souple autorise les corrections des jours passés dans les vues calendrier.</p>
           </article>
           <article class="guide-card">
             <h3 data-i18n="guide.multiTitle">Plusieurs progressions</h3>
-            <p data-i18n="guide.multiText">Crée plusieurs objectifs, chacun avec son nom, ses dates, son thème et ses validations.</p>
+            <p data-i18n="guide.multiText">Chaque progression garde son objectif, ses dates, son thème, son mode et ses validations. Le sélecteur permet de passer d'un objectif à l'autre.</p>
           </article>
           <article class="guide-card">
             <h3 data-i18n="guide.reminderTitle">Rappels</h3>
-            <p data-i18n="guide.reminderText">Active les notifications et la vibration si ton navigateur les supporte.</p>
+            <p data-i18n="guide.reminderText">Les rappels utilisent les notifications du navigateur. Si elles sont autorisées, Day++ peut rappeler le jour à valider à l'heure choisie.</p>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.themeTitle">Thèmes</h3>
+            <p data-i18n="guide.themeText">Le thème change les couleurs de l'interface, des validations, des confettis et des exports. Le thème sombre reprend l'identité du thème principal avec une base nocturne.</p>
+          </article>
+          <article class="guide-card">
+            <h3 data-i18n="guide.resetTitle">Réinitialisation</h3>
+            <p data-i18n="guide.resetText">Réinitialiser cette durée efface les validations de la période courante uniquement. Les autres progressions et leurs périodes restent séparées.</p>
           </article>
         </div>
       </section>
 
       <section class="guide-section">
-        <h2 data-i18n="guide.dataTitle">Données et hors ligne</h2>
+        <h2 data-i18n="guide.dataTitle">Données, exports et hors ligne</h2>
         <ul>
-          <li data-i18n="guide.data1">Les progressions sont stockées localement dans IndexedDB.</li>
-          <li data-i18n="guide.data2">L'app fonctionne hors ligne après le premier chargement.</li>
-          <li data-i18n="guide.data3">Utilise Sauvegarder / Restaurer pour transférer tes données vers un autre appareil ou navigateur.</li>
-          <li data-i18n="guide.data4">Chrome et la PWA partagent les données si elles viennent de la même URL GitHub Pages.</li>
+          <li data-i18n="guide.data1">Les progressions sont stockées localement dans IndexedDB, avec une copie de compatibilité dans localStorage.</li>
+          <li data-i18n="guide.data2">L'app fonctionne hors ligne après le premier chargement grâce au service worker.</li>
+          <li data-i18n="guide.data3">Sauvegarder exporte un fichier JSON complet. Restaurer relit ce fichier et remplace l'état local.</li>
+          <li data-i18n="guide.data4">Exporter l'image génère une capture propre de la progression active, utile pour partager un bilan sans exposer les données brutes.</li>
+          <li data-i18n="guide.data5">Chrome et la PWA partagent les données si elles viennent de la même URL et du même navigateur.</li>
+        </ul>
+      </section>
+
+      <section class="guide-section">
+        <h2 data-i18n="guide.updateTitle">Installation et mises à jour</h2>
+        <ul>
+          <li data-i18n="guide.update1">Installer apparaît quand le navigateur fournit une invitation PWA.</li>
+          <li data-i18n="guide.update2">Mettre à jour n'apparaît pas en permanence : il devient visible quand un nouveau service worker est installé en attente.</li>
+          <li data-i18n="guide.update3">Quand tu appuies sur Mettre à jour, Day++ demande au nouveau service worker de prendre la main, puis recharge la page.</li>
+          <li data-i18n="guide.update4">Si le bouton n'est pas visible, cela signifie généralement qu'aucune nouvelle version n'est encore prête dans ce navigateur.</li>
         </ul>
       </section>
 

@@ -673,14 +673,21 @@ function bindEvents() {
 
 function registerPwa() {
   if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
+    const registerServiceWorker = () => {
       navigator.serviceWorker
         .register("./service-worker.js")
         .then((registration) => {
           watchServiceWorker(registration);
+          registration.update().catch(() => {});
         })
         .catch(() => {});
-    });
+    };
+
+    if (document.readyState === "loading") {
+      window.addEventListener("load", registerServiceWorker, { once: true });
+    } else {
+      registerServiceWorker();
+    }
 
     navigator.serviceWorker.addEventListener("controllerchange", () => {
       if (refreshingForUpdate) return;

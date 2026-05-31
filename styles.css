@@ -332,10 +332,6 @@ body[data-theme="dark"] .ghost-button:hover {
   align-items: start;
 }
 
-body.settings-open .layout {
-  /* No template override needed as settings-panel transitions its width */
-}
-
 .view-host {
   background: rgba(255, 255, 255, 0.84);
   border: 1px solid rgba(234, 223, 229, 0.9);
