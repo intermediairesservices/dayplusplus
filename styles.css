@@ -45,10 +45,7 @@ body {
 
 body[data-theme="dark"] {
   background:
-    radial-gradient(circle at top left,
-      rgba(246, 79, 146, 0.22),
-      transparent 34rem),
-    linear-gradient(135deg, #111318 0%, #1d2028 100%);
+    linear-gradient(135deg, #0c1118 0%, #121b26 56%, #0f2230 100%);
 }
 
 body::after {
@@ -286,18 +283,19 @@ body[data-theme="dark"] .ghost-button:hover {
 
 .language-select {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
   min-height: 40px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.76);
+  background-color: rgba(255, 255, 255, 0.76);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: var(--ink);
-  padding: 0 28px 0 10px;
+  padding: 0 34px;
   font-weight: 760;
   font-size: 0.8rem;
+  line-height: 1;
+  text-align: center;
+  text-align-last: center;
   box-shadow: 0 8px 24px rgba(45, 49, 56, 0.06);
   cursor: pointer;
   appearance: none;
@@ -305,8 +303,8 @@ body[data-theme="dark"] .ghost-button:hover {
   -moz-appearance: none;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23082946' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 14px;
+  background-position: right 10px center;
+  background-size: 14px 14px;
 }
 
 .ghost-button {
@@ -559,7 +557,7 @@ body.settings-open .settings-panel {
 }
 
 .view-tabs button.is-active {
-  border-color: rgba(246, 79, 146, 0.34);
+  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
   background: var(--accent);
   color: #fff;
 }
@@ -651,9 +649,9 @@ body.settings-open .settings-panel {
   overflow: hidden;
   border: 0;
   border-radius: 50%;
-  background: #ffe3ee;
+  background: var(--accent-soft);
   color: #fff;
-  box-shadow: 0 24px 58px rgba(246, 79, 146, 0.28);
+  box-shadow: 0 24px 58px color-mix(in srgb, var(--accent) 24%, transparent);
   isolation: isolate;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -1324,10 +1322,12 @@ body[data-theme="dark"] .week-day,
 body[data-theme="dark"] .year-month,
 body[data-theme="dark"] .onboarding-card {
   background: rgba(29, 32, 40, 0.92);
+  border-color: var(--line);
 }
 
 body[data-theme="dark"] .guide-card {
   background: rgba(29, 32, 40, 0.92);
+  border-color: var(--line);
 }
 
 body[data-theme="dark"] .actions-menu,
@@ -1341,12 +1341,12 @@ body[data-theme="dark"] input,
 body[data-theme="dark"] select,
 body[data-theme="dark"] .year-stats span,
 body[data-theme="dark"] .week-status {
-  background: #161922;
+  background-color: #111a26;
   color: var(--ink);
 }
 
 body[data-theme="dark"] .status-badge {
-  background: #161922;
+  background: #111a26;
   border-color: var(--line);
   color: var(--accent-mid);
 }
@@ -1367,8 +1367,31 @@ body[data-theme="dark"] .primary-button {
 }
 
 body[data-theme="dark"] .language-select {
-  background-color: #161922;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f6f7fb' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-color: #111a26;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238cc7ff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 14px 14px;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+body[data-theme="dark"] .view-tabs button {
+  background: rgba(17, 26, 38, 0.9);
+}
+
+body[data-theme="dark"] .hold-button {
+  box-shadow: 0 26px 62px rgba(79, 159, 235, 0.18);
+}
+
+body[data-theme="dark"] .mini-month,
+body[data-theme="dark"] .bar {
+  background: #111a26;
+}
+
+body[data-theme="dark"] .mini-dot {
+  background: #172234;
+  border-color: #263648;
 }
 
 @media (max-width: 860px) {
@@ -1696,5 +1719,20 @@ body[data-theme="dark"] .language-select {
   .top-actions select,
   .top-actions .more-actions button {
     height: 42px;
+  }
+}
+
+@media (max-width: 860px) {
+  body[data-theme="dark"] .week-day.is-complete {
+    background: linear-gradient(90deg, rgba(43, 189, 168, 0.16), #101a25);
+  }
+
+  body[data-theme="dark"] .week-day.is-today {
+    border-color: rgba(79, 159, 235, 0.52);
+    background: linear-gradient(90deg, rgba(79, 159, 235, 0.18), #101a25);
+  }
+
+  body[data-theme="dark"] .week-day.is-missed {
+    background: linear-gradient(90deg, rgba(241, 199, 91, 0.13), #101a25);
   }
 }
