@@ -408,6 +408,7 @@ const themes = {
 let state = null;
 let holdState = null;
 let confettiFrame = 0;
+let confettiClearTimer = 0;
 let isCreatingProgression = false;
 let deferredInstallPrompt = null;
 let waitingServiceWorker = null;
@@ -1878,8 +1879,9 @@ function cancelHold() {
 
 function completeActiveDay() {
   if (!holdState) return;
+  const button = holdState.button;
   cancelAnimationFrame(holdState.frame);
-  holdState.button.style.setProperty("--fill", "100%");
+  button.style.setProperty("--fill", "100%");
   holdState = null;
 
   const period = getPeriod();
@@ -1887,7 +1889,7 @@ function completeActiveDay() {
   completedMap()[toDateKey(active)] = true;
   state.weekCursorNumber = dayNumber(period, active);
   saveState();
-  celebrate();
+  celebrate(button);
   render();
 
   window.setTimeout(() => {
@@ -1907,7 +1909,7 @@ function toggleDateFromElement(element) {
   if (!map[key]) delete map[key];
 
   saveState();
-  if (map[key] && isSameDate(date, todayDate())) celebrate();
+  if (map[key] && isSameDate(date, todayDate())) celebrate(element);
   render();
 }
 
@@ -2502,13 +2504,15 @@ function resizeConfettiCanvas() {
   context.setTransform(ratio, 0, 0, ratio, 0, 0);
 }
 
-function celebrate() {
+function celebrate(sourceElement = null) {
   vibrate([45, 35, 80]);
   resizeConfettiCanvas();
   cancelAnimationFrame(confettiFrame);
+  window.clearTimeout(confettiClearTimer);
 
   const context = els.confettiCanvas.getContext("2d");
   const theme = currentTheme();
+  const origin = confettiOrigin(sourceElement);
   const colors = [
     theme.accent,
     theme.done,
@@ -2516,53 +2520,38 @@ function celebrate() {
     theme.ink,
     theme.accentMid,
   ];
-  const particles = Array.from({ length: 130 }, () => ({
-    x: window.innerWidth / 2,
-    y: window.innerHeight * 0.42,
-    vx: (Math.random() - 0.5) * 13,
-    vy: Math.random() * -11 - 4,
-    size: Math.random() * 18 + 14,
-    rotation: Math.random() * Math.PI,
-    spin: (Math.random() - 0.5) * 0.42,
-    color: colors[Math.floor(Math.random() * colors.length)],
-    shape: randomConfettiShape(),
-    life: Math.random() * 60 + 78,
-  }));
+
+  if (prefersReducedMotion()) {
+    drawReducedCelebration(context, origin, colors);
+    return;
+  }
+
+  const particles = createConfettiParticles(origin, colors);
 
   const draw = () => {
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     particles.forEach((particle) => {
-      particle.life -= 1;
-      particle.x += particle.vx;
-      particle.y += particle.vy;
-      particle.vy += 0.22;
-      particle.rotation += particle.spin;
-
-      context.save();
-      context.translate(particle.x, particle.y);
-      context.rotate(particle.rotation);
-      context.fillStyle = particle.color;
-      context.strokeStyle = particle.color;
-      context.globalAlpha = Math.max(0, particle.life / 90);
-      context.textAlign = "center";
-      context.textBaseline = "middle";
-      context.font = `900 ${particle.size}px Inter, system-ui, sans-serif`;
-
-      if (particle.shape === "plus") {
-        context.fillText("+", 0, 0);
-      } else if (particle.shape === "doublePlus") {
-        context.font = `950 ${particle.size * 0.82}px Inter, system-ui, sans-serif`;
-        context.fillText("++", 0, 0);
-      } else {
-        context.font = `950 ${particle.size * 0.62}px Inter, system-ui, sans-serif`;
-        context.fillText("D++", 0, 0);
+      if (particle.delay > 0) {
+        particle.delay -= 1;
+        return;
       }
+      if (particle.life <= 0) return;
 
-      context.restore();
+      particle.age += 1;
+      particle.life -= 1;
+      particle.vx *= particle.drag;
+      particle.vy = Math.min(particle.maxVy, particle.vy + particle.gravity);
+      particle.sway += particle.swaySpeed;
+      particle.x += particle.vx + Math.sin(particle.sway) * particle.drift;
+      particle.y += particle.vy;
+      particle.rotation += particle.spin;
+      particle.spin *= 0.99;
+
+      drawConfettiParticle(context, particle);
     });
 
-    if (particles.some((particle) => particle.life > 0)) {
+    if (particles.some((particle) => particle.life > 0 || particle.delay > 0)) {
       confettiFrame = requestAnimationFrame(draw);
     } else {
       context.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -2572,9 +2561,188 @@ function celebrate() {
   draw();
 }
 
+function createConfettiParticles(origin, colors) {
+  const particles = [];
+  const waves = [
+    { count: 92, delay: 0, spread: 15, power: 1 },
+    { count: 54, delay: 9, spread: 34, power: 0.74 },
+  ];
+
+  waves.forEach((wave) => {
+    for (let index = 0; index < wave.count; index += 1) {
+      particles.push(createConfettiParticle(origin, colors, wave));
+    }
+  });
+
+  return particles.sort((a, b) => a.depth - b.depth);
+}
+
+function createConfettiParticle(origin, colors, wave) {
+  const depth = Math.random() * 0.75 + 0.55;
+  const side = Math.random() < 0.5 ? -1 : 1;
+  const launch = Math.random() * 0.75 + 0.65;
+  const drift = Math.random() * 0.65 + 0.18;
+  const shape = randomConfettiShape();
+  const shapeScale =
+    shape === "logo" ? 1.35 : shape === "doublePlus" ? 1.12 : 1;
+
+  return {
+    x: origin.x + (Math.random() - 0.5) * wave.spread,
+    y: origin.y + (Math.random() - 0.5) * wave.spread * 0.5,
+    vx: side * (Math.random() * 5.7 + 1.7) * launch * wave.power * depth,
+    vy: -(Math.random() * 8.2 + 5.3) * launch * wave.power,
+    size: (Math.random() * 13 + 12) * depth * shapeScale,
+    rotation: Math.random() * Math.PI,
+    spin: (Math.random() - 0.5) * 0.34,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    shape,
+    life: Math.round((Math.random() * 36 + 78) * depth),
+    age: 0,
+    delay: wave.delay + Math.floor(Math.random() * 5),
+    drag: 0.982 - depth * 0.006,
+    gravity: 0.13 + depth * 0.065,
+    maxVy: 5.8 + depth * 1.8,
+    sway: Math.random() * Math.PI * 2,
+    swaySpeed: Math.random() * 0.08 + 0.035,
+    drift,
+    depth,
+  };
+}
+
+function drawConfettiParticle(context, particle) {
+  const fadeIn = Math.min(1, particle.age / 7);
+  const fadeOut = Math.min(1, particle.life / 24);
+  const alpha = fadeIn * fadeOut * (0.58 + particle.depth * 0.34);
+
+  context.save();
+  context.translate(particle.x, particle.y);
+  context.rotate(particle.rotation);
+  context.globalAlpha = Math.max(0, Math.min(1, alpha));
+  context.fillStyle = particle.color;
+  context.strokeStyle = particle.color;
+  context.shadowColor = "rgba(8, 41, 70, 0.16)";
+  context.shadowBlur = particle.depth > 1 ? 5 : 2;
+  context.shadowOffsetY = particle.depth > 1 ? 2 : 1;
+
+  if (particle.shape === "logo") {
+    drawLogoConfetti(context, particle.size, particle.color);
+  } else if (particle.shape === "doublePlus") {
+    drawDoublePlusConfetti(context, particle.size);
+  } else {
+    drawPlusConfetti(context, particle.size);
+  }
+
+  context.restore();
+}
+
+function drawPlusConfetti(context, size) {
+  const thickness = Math.max(3, size * 0.26);
+  const radius = thickness / 2;
+  roundedPath(context, -size / 2, -thickness / 2, size, thickness, radius);
+  context.fill();
+  roundedPath(context, -thickness / 2, -size / 2, thickness, size, radius);
+  context.fill();
+}
+
+function drawDoublePlusConfetti(context, size) {
+  const offset = size * 0.34;
+  context.save();
+  context.translate(-offset, 0);
+  drawPlusConfetti(context, size * 0.72);
+  context.restore();
+
+  context.save();
+  context.translate(offset, 0);
+  drawPlusConfetti(context, size * 0.72);
+  context.restore();
+}
+
+function drawLogoConfetti(context, size, color) {
+  context.font = `900 ${size * 0.58}px Inter, system-ui, sans-serif`;
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.lineWidth = Math.max(2, size * 0.06);
+  context.strokeStyle = "rgba(255, 255, 255, 0.82)";
+  context.strokeText("D++", 0, 0);
+  context.fillStyle = color;
+  context.fillText("D++", 0, 0);
+}
+
+function drawReducedCelebration(context, origin, colors) {
+  context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+  [
+    {
+      shape: "plus",
+      x: -28,
+      y: 4,
+      size: 28,
+      color: colors[0],
+      rotation: -0.22,
+    },
+    {
+      shape: "logo",
+      x: 0,
+      y: -8,
+      size: 38,
+      color: colors[2],
+      rotation: 0.04,
+    },
+    {
+      shape: "plus",
+      x: 32,
+      y: 8,
+      size: 24,
+      color: colors[1],
+      rotation: 0.2,
+    },
+  ].forEach((particle) => {
+    drawConfettiParticle(context, {
+      ...particle,
+      x: origin.x + particle.x,
+      y: origin.y + particle.y,
+      depth: 1,
+      age: 7,
+      life: 24,
+    });
+  });
+
+  confettiClearTimer = window.setTimeout(() => {
+    context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  }, 700);
+}
+
+function confettiOrigin(sourceElement) {
+  const target = sourceElement?.querySelector?.(".day-bubble") || sourceElement;
+  if (target?.getBoundingClientRect) {
+    const rect = target.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      return {
+        x: Math.min(
+          window.innerWidth - 32,
+          Math.max(32, rect.left + rect.width / 2),
+        ),
+        y: Math.min(
+          window.innerHeight - 32,
+          Math.max(32, rect.top + rect.height / 2),
+        ),
+      };
+    }
+  }
+
+  return {
+    x: window.innerWidth / 2,
+    y: Math.min(window.innerHeight * 0.42, 360),
+  };
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 function randomConfettiShape() {
   const seed = Math.random();
-  if (seed > 0.82) return "logo";
-  if (seed > 0.64) return "doublePlus";
+  if (seed > 0.92) return "logo";
+  if (seed > 0.72) return "doublePlus";
   return "plus";
 }
