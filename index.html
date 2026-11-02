@@ -14,10 +14,7 @@
     <meta name="apple-mobile-web-app-title" content="Day++" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>Day++</title>
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-19ZNNEVK2R"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-19ZNNEVK2R"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -27,14 +24,26 @@
       gtag("config", "G-19ZNNEVK2R");
     </script>
     <link rel="manifest" href="manifest.webmanifest" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="icons/day-plus-plus-192.png"
-    />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/day-plus-plus-192.png" />
     <link rel="apple-touch-icon" href="icons/day-plus-plus-192.png" />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      .custom-duration-row {
+        display: grid;
+        grid-template-columns: 1fr 120px;
+        gap: 8px;
+      }
+
+      .settings-form .custom-duration-row input,
+      .settings-form .custom-duration-row select {
+        width: 100%;
+      }
+
+      #customDurationRow,
+      #onboardingCustomDurationRow {
+        display: block;
+      }
+    </style>
   </head>
   <body>
     <canvas id="confettiCanvas" aria-hidden="true"></canvas>
@@ -76,22 +85,10 @@
             </button>
             <div id="actionsMenu" class="actions-menu" role="menu" hidden>
               <span id="offlineBadge" class="status-badge" hidden data-i18n="status.offline">Hors ligne</span>
-              <button
-                id="updateBtn"
-                class="soft-button update-button"
-                type="button"
-                role="menuitem"
-                hidden
-              >
+              <button id="updateBtn" class="soft-button update-button" type="button" role="menuitem" hidden>
                 <span data-i18n="action.update">Mettre à jour</span>
               </button>
-              <button
-                id="installBtn"
-                class="soft-button install-button"
-                type="button"
-                role="menuitem"
-                hidden
-              >
+              <button id="installBtn" class="soft-button install-button" type="button" role="menuitem" hidden>
                 <span data-i18n="action.install">Installer</span>
               </button>
               <a id="guideLink" class="soft-button guide-button" href="guide.html" role="menuitem" data-i18n="action.guide">Guide</a>
@@ -128,12 +125,7 @@
           <form id="settingsForm" class="settings-form">
             <label>
               <span data-i18n="settings.goal">Objectif</span>
-              <input
-                id="goalTitle"
-                name="goalTitle"
-                type="text"
-                maxlength="42"
-              />
+              <input id="goalTitle" name="goalTitle" type="text" maxlength="42" />
             </label>
             <label>
               <span data-i18n="settings.type">Type</span>
@@ -143,7 +135,26 @@
                 <option value="quarter" data-i18n="duration.quarter">Trimestre</option>
                 <option value="month" data-i18n="duration.month">Mois</option>
                 <option value="week" data-i18n="duration.week">Semaine</option>
+                <option value="custom" data-i18n="duration.custom">Personnalisé</option>
               </select>
+            </label>
+            <label id="customDurationRow" hidden>
+              <span data-i18n="settings.customDuration">Durée personnalisée</span>
+              <div class="custom-duration-row">
+                <input
+                  id="customDurationValue"
+                  name="customDurationValue"
+                  type="number"
+                  min="1"
+                  max="366"
+                  step="1"
+                  value="60"
+                />
+                <select id="customDurationUnit" name="customDurationUnit">
+                  <option value="days">Jours</option>
+                  <option value="months">Mois</option>
+                </select>
+              </div>
             </label>
             <label>
               <span data-i18n="settings.start">Début</span>
@@ -172,35 +183,18 @@
               </select>
             </label>
             <label class="toggle-label">
-              <input
-                id="notificationToggle"
-                name="notificationToggle"
-                type="checkbox"
-              />
+              <input id="notificationToggle" name="notificationToggle" type="checkbox" />
               <span data-i18n="settings.dailyReminder">Rappel quotidien</span>
             </label>
             <label>
               <span data-i18n="settings.reminderTime">Heure du rappel</span>
-              <input
-                id="notificationTime"
-                name="notificationTime"
-                type="time"
-                value="09:00"
-              />
+              <input id="notificationTime" name="notificationTime" type="time" value="09:00" />
             </label>
             <label class="toggle-label">
-              <input
-                id="vibrationToggle"
-                name="vibrationToggle"
-                type="checkbox"
-              />
+              <input id="vibrationToggle" name="vibrationToggle" type="checkbox" />
               <span data-i18n="settings.vibration">Vibration</span>
             </label>
-            <button
-              id="notificationPermissionBtn"
-              class="ghost-button"
-              type="button"
-            >
+            <button id="notificationPermissionBtn" class="ghost-button" type="button">
               <span data-i18n="action.allowNotifications">Autoriser les notifications</span>
             </button>
             <p id="notificationStatus" class="settings-note" data-i18n="notification.disabled">
@@ -240,11 +234,7 @@
           </div>
 
           <div class="tool-stack" aria-label="Outils" data-i18n-aria-label="aria.tools">
-            <button
-              id="settingsExportImageBtn"
-              class="ghost-button"
-              type="button"
-            >
+            <button id="settingsExportImageBtn" class="ghost-button" type="button">
               <span data-i18n="action.exportImage">Exporter l'image</span>
             </button>
             <button id="backupBtn" class="ghost-button" type="button">
@@ -253,12 +243,7 @@
             <button id="restoreBtn" class="ghost-button" type="button">
               <span data-i18n="action.restore">Restaurer</span>
             </button>
-            <input
-              id="restoreInput"
-              type="file"
-              accept="application/json"
-              hidden
-            />
+            <input id="restoreInput" type="file" accept="application/json" hidden />
           </div>
 
           <button id="resetProgressBtn" class="danger-button" type="button">
@@ -281,25 +266,14 @@
       </main>
     </div>
 
-    <div
-      id="onboardingModal"
-      class="onboarding-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="onboardingTitle"
-    >
+    <div id="onboardingModal" class="onboarding-modal" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
       <form id="onboardingForm" class="onboarding-card">
         <p class="eyebrow">Day++</p>
         <h2 id="onboardingTitle" data-i18n="onboarding.title">Configurer l'objectif</h2>
         <div class="onboarding-grid">
           <label>
             <span data-i18n="settings.goal">Objectif</span>
-            <input
-              id="onboardingGoalTitle"
-              type="text"
-              maxlength="42"
-              value="Progression 365"
-            />
+            <input id="onboardingGoalTitle" type="text" maxlength="42" value="Progression 365" />
           </label>
           <label>
             <span data-i18n="settings.durationTitle">Durée</span>
@@ -309,7 +283,18 @@
               <option value="quarter" data-i18n="duration.quarter">Trimestre</option>
               <option value="month" data-i18n="duration.month">Mois</option>
               <option value="week" data-i18n="duration.week">Semaine</option>
+              <option value="custom" data-i18n="duration.custom">Personnalisé</option>
             </select>
+          </label>
+          <label id="onboardingCustomDurationRow" hidden>
+            <span data-i18n="settings.customDuration">Durée personnalisée</span>
+            <div class="custom-duration-row">
+              <input id="onboardingCustomDurationValue" type="number" min="1" max="366" step="1" value="60" />
+              <select id="onboardingCustomDurationUnit">
+                <option value="days">Jours</option>
+                <option value="months">Mois</option>
+              </select>
+            </div>
           </label>
           <label>
             <span data-i18n="settings.start">Début</span>
